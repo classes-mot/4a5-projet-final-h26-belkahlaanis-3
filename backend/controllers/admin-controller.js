@@ -1,3 +1,4 @@
+import { use } from "react";
 import { Users } from "../models/users";
 import HttpError from "../utils/http-error";
 
@@ -11,7 +12,7 @@ const getUsers = async (req, res, next) => {
   res.json({ Users: users });
 };
 
-const getUserId = async (req, res, next) => {
+const banUser = async (req, res, next) => {
   const userId = req.params.id;
   let user;
   try {
@@ -21,6 +22,13 @@ const getUserId = async (req, res, next) => {
   }
   if (!user) {
     return next(HttpError("User non trouvee", 404));
+  } else {
+    user.isBan = true;
   }
-  res.json({ user: user.toObject({ getters: true }) });
+  try {
+    await user.save();
+  } catch (erreur) {
+    return next(HttpError("Une erreur est survenue dans la BD", 500));
+  }
+  res.json({ message: user.nom + " a bien ete banni " });
 };
