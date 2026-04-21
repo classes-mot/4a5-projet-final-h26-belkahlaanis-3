@@ -1,4 +1,3 @@
-import { use } from "react";
 import { Users } from "../models/users";
 import HttpError from "../utils/http-error";
 
@@ -7,7 +6,7 @@ const getUsers = async (req, res, next) => {
   try {
     users = await Users.find();
   } catch (erreur) {
-    return next(HttpError("Une erreur est survenue dans la BD", 500));
+    return next(new HttpError("Une erreur est survenue dans la BD", 500));
   }
   res.json({ Users: users });
 };
@@ -18,17 +17,17 @@ const banUser = async (req, res, next) => {
   try {
     user = await Users.findById(userId);
   } catch (erreur) {
-    return next(HttpError("Une erreur est survenue dans la BD", 500));
+    return next(new HttpError("Une erreur est survenue dans la BD", 500));
   }
   if (!user) {
-    return next(HttpError("User non trouvee", 404));
+    return next(new HttpError("User non trouvee", 404));
   } else {
     user.isBan = true;
   }
   try {
     await user.save();
   } catch (erreur) {
-    return next(HttpError("Une erreur est survenue dans la BD", 500));
+    return next(new HttpError("Une erreur est survenue dans la BD", 500));
   }
   res.json({ message: user.nom + " a bien ete banni " });
 };

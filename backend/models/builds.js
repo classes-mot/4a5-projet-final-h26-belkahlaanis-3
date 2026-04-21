@@ -34,4 +34,4 @@ const buildsSchema = new mongoose.Schema({
   description: { type: String, default: "" },
 });
 
-export const Build = mongoose.model("Builds", buildsSchema);
+export const Builds = mongoose.model("Builds", buildsSchema);
