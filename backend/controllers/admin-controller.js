@@ -32,3 +32,5 @@ const banUser = async (req, res, next) => {
   }
   res.json({ message: user.nom + " a bien ete banni " });
 };
+
+export { getUsers, banUser };
