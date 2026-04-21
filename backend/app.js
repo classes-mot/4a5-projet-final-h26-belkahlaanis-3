@@ -1,5 +1,6 @@
 import express from "express";
 import adminRoute from "./routes/admin-routes.js";
+import buildRoute from "./routes/build-route.js";
 import { errorHandler } from "./handler/error-handler.js";
 import { connectDB } from "./utils/bd.js";
 
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/admin", adminRoute);
+app.use("/api/build", buildRoute);
 app.use((req, res, next) => {
   const erreur = new Error("Route non trouvee");
   erreur.code = 404;
