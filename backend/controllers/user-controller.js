@@ -94,7 +94,7 @@ const getBuildId = async (req, res, next) => {
   const { userId, buildId } = req.params;
   let build;
   try {
-    const user = await Users.findById(userId);
+    const user = await Users.findById(userId).populate("builds"); // populate cherche l'objet et avec le id que je stock dans le shcema
     if (!user) {
       return next(new HttpError("User non trouvee", 404));
     }

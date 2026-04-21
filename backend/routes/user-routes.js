@@ -14,6 +14,6 @@ router.post("/login", login);
 
 router.get("/:userId", getBuilds);
 
-router.delete("/:userId/:buildId", getBuildId);
+router.get("/:userId/:buildId", getBuildId);
 
 export default router;

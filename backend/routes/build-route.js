@@ -7,10 +7,10 @@ import {
 
 const router = express.Router();
 
-router.post("/user:id", creerBuild);
+router.post("/:userid", creerBuild);
 
-router.patch("/user:id/:id", modifierBuild);
+router.patch("/:userid/:buildId", modifierBuild);
 
-router.delete("/user:id/:id", supprimerBuild);
+router.delete("/:userid/:buildId", supprimerBuild);
 
 export default router;

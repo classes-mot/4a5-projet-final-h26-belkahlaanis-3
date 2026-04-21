@@ -1,28 +1,26 @@
 import { Builds } from "../models/builds.js";
+import { Users } from "../models/users.js";
 import HttpError from "../utils/http-error.js";
 
 const creerBuild = async (req, res, next) => {
-  const {
-    titre,
-    isPublic,
-    proprietaire,
-    equipement,
-    artefacts,
-    stats,
-    description,
-  } = req.body;
-
+  const { titre, isPublic, equipement, artefacts, stats, description } =
+    req.body;
+  const userId = req.params.userid;
+  let user;
   const build = new Builds({
     titre,
     isPublic,
-    proprietaire,
+    proprietaire: userId,
     equipement,
     artefacts,
     stats,
     description,
   });
   try {
+    user = await Users.findById(userId);
+    user.builds.push(build);
     await build.save();
+    await user.save();
   } catch (erreur) {
     return next(new HttpError("Creation dans la BD echouee", 500));
   }
@@ -42,6 +40,7 @@ const modifierBuild = async (req, res, next) => {
     }
     res.status(200).json({ build: buildModifier.toObject({ getters: true }) });
   } catch (erreur) {
+     console.log(erreur);
     res
       .status(500)
       .json({ message: "Erreur lors de la modificatoin du build" });
@@ -49,7 +48,7 @@ const modifierBuild = async (req, res, next) => {
 };
 
 const supprimerBuild = async (req, res, next) => {
-  const buildId = req.params.id;
+  const buildId = req.params.buildId;
   try {
     const build = await Builds.findByIdAndDelete(buildId);
     if (!build) {
