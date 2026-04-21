@@ -1,6 +1,6 @@
-import { Users } from "../models/users";
+import { Users } from "../models/users.js";
 import jwt from "jsonwebtoken";
-import HttpError from "../utils/http-error";
+import HttpError from "../utils/http-error.js";
 
 const enregistrerUser = async (req, res, next) => {
   const { nom, email, password } = req.body;

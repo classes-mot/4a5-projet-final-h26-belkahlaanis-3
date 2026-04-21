@@ -1,5 +1,5 @@
-import { Users } from "../models/users";
-import HttpError from "../utils/http-error";
+import { Users } from "../models/users.js";
+import HttpError from "../utils/http-error.js";
 
 const getUsers = async (req, res, next) => {
   let users;

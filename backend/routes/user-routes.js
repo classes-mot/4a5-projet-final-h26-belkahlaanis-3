@@ -4,7 +4,7 @@ import {
   login,
   getBuilds,
   getBuildId,
-} from "../controllers/user-controller";
+} from "../controllers/user-controller.js";
 
 const router = express.Router();
 
