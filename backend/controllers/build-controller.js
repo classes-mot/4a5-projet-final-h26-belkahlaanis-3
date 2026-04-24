@@ -2,22 +2,54 @@ import { Builds } from "../models/builds.js";
 import { Users } from "../models/users.js";
 import HttpError from "../utils/http-error.js";
 
+/* methode qui valide le json; si mauvais -> retourne 422;
+recupere les valeurs et creer un build et le mets dans la bd et dans la liste du user;
+si user existe pas -> retourne 404;
+si le build est public et n'a pas de titre -> "build de " nom du User
+ */
 const creerBuild = async (req, res, next) => {
-  const { titre, isPublic, equipement, artefacts, stats, description } =
-    req.body;
-  const userId = req.params.userid;
-  let user;
-  const build = new Builds({
+  const validationErreurs = validationResult(req);
+  if (!validationErreurs.isEmpty()) {
+    return next(
+      new HttpError("données saisies invalides valider votre payload", 422),
+    );
+  }
+  const {
     titre,
     isPublic,
-    proprietaire: userId,
-    equipement,
-    artefacts,
-    stats,
+    equipement: { casque, plastron, pantalon, botte },
+    artefacts: { artefact1, artefact2, artefact3, artefact4 },
+    stats: { hp, fp, end, str, dex, int, faith, arc, lvl },
     description,
-  });
+  } = req.body;
   try {
-    user = await Users.findById(userId);
+    const userId = req.params.userId;
+    const user = await Users.findById(userId);
+    if (!user) {
+      return next(new HttpError("Utilisateur non trouvé", 404));
+    }
+    if (isPublic === true && titre === undefined) {
+      titre = "Build de " + user.nom;
+    }
+    const build = new Builds({
+      titre,
+      isPublic,
+      proprietaire: userId,
+      equipement: {
+        casque,
+        plastron,
+        pantalon,
+        botte,
+      },
+      artefacts: {
+        artefact1,
+        artefact2,
+        artefact3,
+        artefact4,
+      },
+      stats: { hp, fp, end, str, dex, int, faith, arc, lvl },
+      description,
+    });
     user.builds.push(build);
     await build.save();
     await user.save();
@@ -27,7 +59,19 @@ const creerBuild = async (req, res, next) => {
   res.status(201).json({ creation: build });
 };
 
+/* valide le json sinon -> retourne 422;
+recupere le json et le id du build
+puis cherche dans la bd si pas de build -> retourne 404;
+A notee ***Ne modifie tout le build au complet juste le json entrer***
+donc si je mets juste un titre dans le json le build reste le meme sauf le titre
+ */
 const modifierBuild = async (req, res, next) => {
+  const validationErreurs = validationResult(req);
+  if (!validationErreurs.isEmpty()) {
+    return next(
+      new HttpError("données saisies invalides valider votre payload", 422),
+    );
+  }
   const buildId = req.params.buildId;
   const nvBuild = req.body;
 
@@ -36,30 +80,38 @@ const modifierBuild = async (req, res, next) => {
       new: true,
     });
     if (!buildModifier) {
-      return res.status(404).json({ message: "Build non trouvee" });
+      return next(new HttpError("Build non trouvee", 404));
     }
-    res.status(200).json({ build: buildModifier.toObject({ getters: true }) });
   } catch (erreur) {
-     console.log(erreur);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la modificatoin du build" });
+    return next(new HttpError("Erreur lors de la modificatoin du build", 500));
   }
+  res.status(200).json({ build: buildModifier.toObject({ getters: true }) });
 };
 
+/*methode qui cherche le build que le joueur veut supprimer;
+si il existe pas (user ou build) -> retourne 404;
+sinon supprimer le build de la bd Build et de la liste du user 
+ */
 const supprimerBuild = async (req, res, next) => {
   const buildId = req.params.buildId;
+  const userId = req.params.userId;
   try {
+    const user = await Users.findById(userId);
+    if (!user) {
+      return next(new HttpError("User non trouvee", 404));
+    }
     const build = await Builds.findByIdAndDelete(buildId);
     if (!build) {
-      return res.status(404).json({ message: "Build non trouve" });
+      return next(new HttpError("Build non trouvee", 404));
     }
-    res.status(200).json({ message: "Build supprimer" });
+    user.builds = user.builds.filter((b) => b._id.toString() !== buildId);
+    await user.save();
   } catch (erreur) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la suppresion du build dans la bd" });
+    return next(
+      new HttpError("Erreur lors de la suppresion du build dans la bd", 500),
+    );
   }
+  res.status(200).json({ message: "Build supprimer" });
 };
 
 export { creerBuild, modifierBuild, supprimerBuild };

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import HttpError from "../util/http-error.js";
+import HttpError from "../utils/http-error.js";
 
 const checkUser = (req, res, next) => {
   try {

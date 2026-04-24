@@ -1,36 +1,40 @@
 import { Users } from "../models/users.js";
 import jwt from "jsonwebtoken";
 import HttpError from "../utils/http-error.js";
+import { Builds } from "../models/builds.js";
+import { validationResult } from "express-validator";
 
+/* verifie si le payload est bon sinon -> retourne 404;
+si le user existe -> retourne 422;
+sinon creer le user le met dans la bd et creer un token
+si la creation du token echoue -> retourne 500
+*/
 const enregistrerUser = async (req, res, next) => {
-  const { nom, email, password } = req.body;
-  let userExistant;
-  try {
-    userExistant = await Users.findOne({ email: email });
-  } catch (erreur) {
+  const validationErreurs = validationResult(req);
+  if (!validationErreurs.isEmpty()) {
     return next(
-      new HttpError("Enregistrement echouer recommence plus tard", 500),
+      new HttpError("données saisies invalides valider votre payload", 422),
     );
   }
-
-  if (userExistant) {
-    return next(new HttpError("Le email est deja utiliser", 422));
-  }
-  const user = new Users({
-    nom,
-    email,
-    password,
-  });
+  const { nom, email, password } = req.body;
   try {
+    const userExistant = await Users.findOne({ email: email });
+    if (userExistant) {
+      return next(new HttpError("Le email est deja utiliser", 422));
+    }
+    const user = new Users({
+      nom,
+      email,
+      password,
+    });
     await user.save();
   } catch (erreur) {
     return next(
       new HttpError("Enregistrement echouer recommence plus tard", 500),
     );
   }
-  let token;
   try {
-    token = jwt.sign(
+    const token = jwt.sign(
       { userId: user.id, email: user.email },
       "cleTresTresTresSecret???",
       { expiresIn: "1h" },
@@ -42,19 +46,34 @@ const enregistrerUser = async (req, res, next) => {
   res.status(201).json({ user: user.toObject({ getters: true }) });
 };
 
+/*verifie le payload si pas respecter -> retourne 422;
+ensuite cherche le user avec le email si le user est ban indique la raison du ban -> retourne 403;
+ensuite verifie le mdp donnee avec celui de la bd si mauvais -> retourne 401 
+si bon -> creer un token si la creation du token echoue -> retourne 500
+*/
 const login = async (req, res, next) => {
+  const validationErreurs = validationResult(req);
+  if (!validationErreurs.isEmpty()) {
+    return next(
+      new HttpError("données saisies invalides valider votre payload", 422),
+    );
+  }
   const { email, password } = req.body;
   let userExistant;
-
   try {
     userExistant = await Users.findOne({ email });
+    if (!userExistant || userExistant.password !== password) {
+      return next(
+        new HttpError("Identification echouer,Verifier les identifions", 401),
+      );
+    }
+    if (userExistant.isBan) {
+      return next(
+        new HttpError("tu es ban pour " + userExistant.raisonBan, 403),
+      );
+    }
   } catch (erreur) {
-    return next(new HttpError("Echec de connexion1", 500));
-  }
-  if (!userExistant || userExistant.password !== password) {
-    return next(
-      new HttpError("Identification echouer,Verifier les identifions", 401),
-    );
+    return next(new HttpError("Echec de connexion", 500));
   }
 
   let token;
@@ -66,7 +85,7 @@ const login = async (req, res, next) => {
         role: userExistant.role,
       },
       "cleTresTresTresSecret???",
-      { expiresIn: "1h" },
+      { expiresIn: "24h" },
     );
   } catch (err) {
     const error = new HttpError("Erreur lors de la generation de la cle", 500);
@@ -79,6 +98,10 @@ const login = async (req, res, next) => {
   });
 };
 
+/* cherche le user donner en parametre si trouve pas -> retourne 404;
+sinon prends ces builds et les renvoies
+si trouve aucun gerer au niveau Frontend
+*/
 const getBuilds = async (req, res, next) => {
   const { userId } = req.params;
   let builds;
@@ -94,11 +117,15 @@ const getBuilds = async (req, res, next) => {
   res.json({ Builds: builds });
 };
 
+/* cherche le user donner en parametre si trouve pas -> retourne 404;
+sinon prends un builds donner avec un id
+si le(build) trouve pas -> retourne 404
+*/
 const getBuildId = async (req, res, next) => {
   const { userId, buildId } = req.params;
   let build;
   try {
-    const user = await Users.findById(userId).populate("builds"); // populate cherche l'objet et avec le id que je stock dans le shcema
+    const user = await Users.findById(userId).populate("builds"); // populate cherche l'objet avec le id que je stock dans le shcema
     if (!user) {
       return next(new HttpError("User non trouvee", 404));
     }
@@ -112,4 +139,17 @@ const getBuildId = async (req, res, next) => {
   res.json({ Build: build });
 };
 
-export { enregistrerUser, login, getBuilds, getBuildId };
+/*Cherche tous les builds qui sont public
+si trouve aucun gerer au niveau Frontend
+*/
+const getPublic = async (req, res, next) => {
+  let buildsPublic;
+  try {
+    buildsPublic = await Builds.find({ isPublic: true });
+  } catch (erreur) {
+    return next(new HttpError("Une erreur est survenue dans la BD", 500));
+  }
+  res.json({ buildsPublic: buildsPublic });
+};
+
+export { enregistrerUser, login, getBuilds, getBuildId, getPublic };

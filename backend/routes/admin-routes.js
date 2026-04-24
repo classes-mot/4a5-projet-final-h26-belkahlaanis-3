@@ -1,10 +1,16 @@
 import express from "express";
 import { getUsers, banUser } from "../controllers/admin-controller.js";
+import { checkUser, checkAdmin } from "../middleware/check-auth.js";
+import { check } from "express-validator";
 
 const router = express.Router();
 
-router.get("/users", getUsers);
+const validationBan = [
+  check("raisonBan").isString().trim().isLength({ min: 10, max: 100 }),
+];
 
-router.patch("/:id", banUser);
+router.get("/users", checkUser, checkAdmin, getUsers);
+
+router.patch("/:id", checkUser, checkAdmin, validationBan, banUser);
 
 export default router;
