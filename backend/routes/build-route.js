@@ -4,14 +4,14 @@ import {
   modifierBuild,
   supprimerBuild,
 } from "../controllers/build-controller.js";
-import { checkUser } from "../middleware/check-auth.js";
+import { checkUser, checkBan } from "../middleware/check-auth.js";
 import { check } from "express-validator";
 
 const router = express.Router();
 const validation = [
   check("titre").optional().isString().trim().isLength({ min: 2, max: 100 }),
   check("isPublic").optional().isBoolean(),
-  check("class").isIn([
+  check("classe").isIn([
     "Vagabond",
     "Warrior",
     "Hero",
@@ -43,10 +43,10 @@ const validation = [
   check("description").optional().isString().trim().isLength({ max: 500 }),
 ];
 
-router.post("/:userId", checkUser, validation, creerBuild);
+router.post("/:userId", checkUser, checkBan, validation, creerBuild);
 
-router.patch("/:userid/:buildId", checkUser, validation, modifierBuild);
+router.patch("/:userId/:buildId", checkUser, checkBan, modifierBuild);
 
-router.delete("/:userid/:buildId", checkUser, supprimerBuild);
+router.delete("/:userId/:buildId", checkUser, checkBan, supprimerBuild);
 
 export default router;

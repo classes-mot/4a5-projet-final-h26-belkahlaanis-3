@@ -1,7 +1,8 @@
 import { Users } from "../models/users.js";
 import HttpError from "../utils/http-error.js";
+import { validationResult } from "express-validator";
 
-/* recupere tous les users dans la bd et affiche le user -> "nom";
+/* recupere tous les users dans la bd et affiche le user -> "nom" + "_id";
 si aucun user -> retourne 404*/
 const getUsers = async (req, res, next) => {
   let users;

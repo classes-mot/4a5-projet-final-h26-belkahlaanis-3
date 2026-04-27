@@ -6,7 +6,7 @@ import {
   getBuildId,
   getPublic,
 } from "../controllers/user-controller.js";
-import { checkUser } from "../middleware/check-auth.js";
+import { checkUser, checkBan } from "../middleware/check-auth.js";
 import { check, oneOf } from "express-validator";
 
 const router = express.Router();
@@ -22,16 +22,14 @@ const verificationLogin = [
   check("password").isString().trim().isLength({ min: 9 }),
 ];
 
-const verifiLogin = [check("")];
-
 router.get("/public", getPublic);
 
 router.post("/enregisrer", verificationSignIn, enregistrerUser);
 
 router.post("/login", verificationLogin, login);
 
-router.get("/:userId", checkUser, getBuilds);
+router.get("/:userId", checkUser, checkBan, getBuilds);
 
-router.get("/:userId/:buildId", checkUser, getBuildId);
+router.get("/:userId/:buildId", checkUser, checkBan, getBuildId);
 
 export default router;

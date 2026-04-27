@@ -17,12 +17,17 @@ const enregistrerUser = async (req, res, next) => {
     );
   }
   const { nom, email, password } = req.body;
+  let user;
   try {
     const userExistant = await Users.findOne({ email: email });
     if (userExistant) {
       return next(new HttpError("Le email est deja utiliser", 422));
     }
-    const user = new Users({
+    const nomExistant = await Users.findOne({ nom: nom });
+    if (nomExistant) {
+      return next(new HttpError("Le nom est deja utiliser", 422));
+    }
+    user = new Users({
       nom,
       email,
       password,
@@ -33,17 +38,23 @@ const enregistrerUser = async (req, res, next) => {
       new HttpError("Enregistrement echouer recommence plus tard", 500),
     );
   }
+  let token;
   try {
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
+    token = jwt.sign(
+      {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+      },
       "cleTresTresTresSecret???",
       { expiresIn: "1h" },
     );
   } catch (err) {
+    console.log(err);
     const error = new HttpError("Erreur lors de la generation de la cle", 500);
     return next(error);
   }
-  res.status(201).json({ user: user.toObject({ getters: true }) });
+  res.status(201).json({ user: user.toObject(), token: token });
 };
 
 /*verifie le payload si pas respecter -> retourne 422;

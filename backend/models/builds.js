@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "node:os";
 
 const buildsSchema = new mongoose.Schema({
   titre: { type: String, default: "Sans titre" },
@@ -9,7 +8,7 @@ const buildsSchema = new mongoose.Schema({
     ref: "Users",
     required: true,
   },
-  class: { type: String, required: true },
+  classe: { type: String, required: true },
   equipement: {
     casque: { type: String, default: "vide" },
     plastron: { type: String, default: "vide" },
