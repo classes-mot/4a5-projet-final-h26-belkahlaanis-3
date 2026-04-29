@@ -1,16 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import BuildCard from "../buildCard/buildCard";
-import { isUser } from "../../context/auth-context";
+import { Auth } from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 
 export default function BuildList() {
-  const user = useContext(isUser);
+  const user = useContext(Auth);
   const naviger = useNavigate();
   const [estPrivee, setPrivee] = useState(user.connectee);
   const [data, setData] = useState(null);
   useEffect(() => {
     const sendRequest = async () => {
       try {
+        if (estPrivee && !user.userId) return;
         let reponse;
         if (estPrivee) {
           let url = "http://localhost:5000/api/user/";
@@ -26,14 +27,13 @@ export default function BuildList() {
         if (!reponse.ok) {
           throw new Error(reponseData.message || "erreur survenue");
         }
-        console.log(reponseData);
         setData(reponseData);
       } catch (erreur) {
         console.log(erreur);
       }
     };
     sendRequest();
-  }, [estPrivee]);
+  }, [estPrivee, user.userId, user.token]);
   if (!data) return <p>Loading...</p>;
   return (
     <div>
@@ -42,9 +42,6 @@ export default function BuildList() {
           <button onClick={() => setPrivee(false)}>Build public</button>
           <h1>Mes builds</h1>
         </div>
-      )}
-      {user.connectee && !estPrivee && (
-        <button onClick={() => setPrivee(true)}>Mes builds</button>
       )}
       {!user.connectee && (
         <div>
@@ -61,6 +58,9 @@ export default function BuildList() {
         >
           log out
         </button>
+      )}
+      {user.connectee && !estPrivee && (
+        <button onClick={() => setPrivee(true)}>Mes builds</button>
       )}
 
       {estPrivee ? (

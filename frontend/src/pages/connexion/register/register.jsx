@@ -1,8 +1,10 @@
 import { useContext } from "react";
-import { isUser } from "../../../context/auth-context";
+import { Auth } from "../../../context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const user = useContext(isUser);
+  const user = useContext(Auth);
+  const naviger = useNavigate();
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
@@ -15,15 +17,21 @@ export default function Register() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + user.token,
           },
           body: JSON.stringify({
-            nom: data.username,
+            nom: data.nom,
             email: data.email,
             password: data.password,
           }),
         },
       );
+      if (!reponse.ok) {
+        throw new Error(reponse.message || "erreur lors de la connexion");
+      }
+      const reponseData = await reponse.json();
+      console.log("reponseData:", reponseData);
+      user.login(reponseData.user._id, reponseData.token, "user");
+      naviger("/menu");
     } catch (erreur) {
       console.log(erreur);
     }
@@ -31,11 +39,11 @@ export default function Register() {
 
   return (
     <form onSubmit={authSubmitHandler}>
-      <h2 className="titre">Connexion</h2>
+      <h2 className="titre">Inscription</h2>
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="username">username</label>
-          <input id="username" type="text" name="username" />
+          <input id="username" type="text" name="nom" />
         </div>
         <div className="control no-margin">
           <label htmlFor="email">email</label>
@@ -48,6 +56,13 @@ export default function Register() {
       </div>
       <button className="btn" type="submit">
         Se connecter
+      </button>
+      <button
+        className="boutton"
+        type="button"
+        onClick={() => naviger("/login")}
+      >
+        Retour login
       </button>
     </form>
   );

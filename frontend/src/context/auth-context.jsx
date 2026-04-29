@@ -1,9 +1,10 @@
 import { createContext } from "react";
 
-export const isUser = createContext({
+export const Auth = createContext({
   connectee: false,
   userId: null,
   token: null,
+  role:null,
   login: () => {},
   logout: () => {},
 });

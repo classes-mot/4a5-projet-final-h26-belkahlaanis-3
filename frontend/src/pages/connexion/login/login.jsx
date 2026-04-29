@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { isUser } from "../../../context/auth-context";
+import { Auth } from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const user = useContext(isUser);
+  const user = useContext(Auth);
   const naviger = useNavigate();
 
   const authSubmitHandler = async (event) => {
@@ -25,8 +25,13 @@ export default function Login() {
         throw new Error(reponse.message || "erreur lors de la connexion");
       }
       const reponseData = await reponse.json();
-      user.login(reponseData.userId, reponseData.token);
-      naviger("/menu");
+      console.log("reponseData:", reponseData);
+      user.login(reponseData.userId, reponseData.token, reponseData.role);
+      if (reponseData.role === "admin") {
+        naviger("/banUser");
+      } else {
+        naviger("/menu");
+      }
     } catch (erreur) {
       console.log(erreur);
     }
@@ -45,8 +50,15 @@ export default function Login() {
           <input id="password" type="password" name="password" />
         </div>
       </div>
-      <button className="btn" type="submit">
+      <button className="btnSubmit" type="submit">
         Se connecter
+      </button>
+      <button
+        className="creer"
+        type="button"
+        onClick={() => naviger("/register")}
+      >
+        New Account
       </button>
     </form>
   );
