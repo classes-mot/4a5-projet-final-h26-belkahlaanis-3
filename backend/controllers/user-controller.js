@@ -106,6 +106,7 @@ const login = async (req, res, next) => {
     userId: userExistant.id,
     email: userExistant.email,
     token: token,
+    role: userExistant.role,
   });
 };
 
