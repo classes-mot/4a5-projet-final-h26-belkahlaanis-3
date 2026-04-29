@@ -117,7 +117,7 @@ const getBuilds = async (req, res, next) => {
   const { userId } = req.params;
   let builds;
   try {
-    const user = await Users.findById(userId);
+    const user = await Users.findById(userId).populate("builds");
     if (!user) {
       return next(new HttpError("User non trouvee", 404));
     }
