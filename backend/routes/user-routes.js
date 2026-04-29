@@ -24,7 +24,7 @@ const verificationLogin = [
 
 router.get("/public", getPublic);
 
-router.post("/enregisrer", verificationSignIn, enregistrerUser);
+router.post("/enregistrer", verificationSignIn, enregistrerUser);
 
 router.post("/login", verificationLogin, login);
 

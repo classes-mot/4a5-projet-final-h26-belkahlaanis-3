@@ -4,10 +4,17 @@ import buildRoute from "./routes/build-route.js";
 import userRoute from "./routes/user-routes.js";
 import { errorHandler } from "./handler/error-handler.js";
 import { connectDB } from "./utils/bd.js";
+import cors from "cors";
 
 await connectDB();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.use(express.json());
 app.use("/api/admin", adminRoute);
@@ -18,6 +25,7 @@ app.use((req, res, next) => {
   erreur.code = 404;
   next(erreur);
 });
+
 app.use(errorHandler);
 
 app.listen(5000);
