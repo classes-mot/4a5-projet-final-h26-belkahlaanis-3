@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { isUser } from "../../../context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const user = useContext(isUser);
+  const naviger = useNavigate();
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
@@ -13,13 +15,18 @@ export default function Login() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + user.token,
         },
         body: JSON.stringify({
           email: data.email,
           password: data.password,
         }),
       });
+      if (!reponse.ok) {
+        throw new Error(reponse.message || "erreur lors de la connexion");
+      }
+      const reponseData = await reponse.json();
+      user.login(reponseData.userId, reponseData.token);
+      naviger("/menu");
     } catch (erreur) {
       console.log(erreur);
     }
