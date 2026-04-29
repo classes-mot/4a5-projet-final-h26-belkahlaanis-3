@@ -6,6 +6,8 @@ import NotFound from "./pages/404/NotFound.jsx";
 import Menu from "./pages/menu/menu.jsx";
 import Register from "./pages/connexion/register/register.jsx";
 import Login from "./pages/connexion/login/login.jsx";
+import Build from "./pages/build/build.jsx";
+import ListUsers from "./pages/admin/listUsers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,7 @@ const router = createBrowserRouter([
       },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "build", element: <Build /> },
     ],
   },
 ]);
@@ -37,6 +40,8 @@ const routerConnectee = createBrowserRouter([
       },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "build", element: <Build /> },
+      { path: "banUser", element: <ListUsers /> },
     ],
   },
 ]);
