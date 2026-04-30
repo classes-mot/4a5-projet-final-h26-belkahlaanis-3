@@ -19,7 +19,6 @@ export default function UserList() {
         if (!reponse.ok) {
           throw new Error(reponseData.message || "erreur survenue");
         }
-        console.log(reponseData);
         setData(reponseData);
       } catch (erreur) {
         console.log(erreur);
