@@ -36,7 +36,7 @@ const checkBan = async (req, res, next) => {
   try {
     const user = await Users.findById(req.userData.userId)
     if (user.isBan) {
-      return next(
+      return next( 
         new HttpError("tu es bani pour " + user.raisonBan, 403),
       );
     }

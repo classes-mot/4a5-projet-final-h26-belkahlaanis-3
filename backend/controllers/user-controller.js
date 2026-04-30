@@ -115,7 +115,7 @@ sinon prends ces builds et les renvoies
 si trouve aucun gerer au niveau Frontend
 */
 const getBuilds = async (req, res, next) => {
-  const { userId } = req.params;
+  const { userId } = req.userData;
   let builds;
   try {
     const user = await Users.findById(userId).populate("builds");
