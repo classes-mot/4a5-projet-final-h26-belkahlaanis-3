@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Auth } from "../../context/auth-context";
 import UserCard from "../userCard/userCard";
 import ModalBanUser from "../modal/banUser/banUser";
-import "./userList.css"
+import "./userList.css";
 
 export default function UserList() {
   const admin = useContext(Auth);
@@ -55,6 +55,7 @@ export default function UserList() {
                 },
                 body: JSON.stringify({ raisonBan: raison }),
               });
+              setUserBan(null);
             }}
             nomUser={userBan.nom}
           />
