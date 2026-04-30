@@ -1,0 +1,65 @@
+/* ===== userList.css ===== */
+
+.user-list-wrapper {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(200, 168, 75, 0.06) 0%, transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(200, 168, 75, 0.015) 2px,
+      rgba(200, 168, 75, 0.015) 4px
+    ),
+    var(--bg);
+  padding-bottom: 80px;
+}
+
+.user-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: linear-gradient(180deg, #1a1510 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.user-list-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+}
+
+.user-list-content {
+  max-width: 720px;
+  margin: 50px auto 0;
+  padding: 0 32px;
+}
+
+.user-list-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 30px rgba(200, 168, 75, 0.3);
+}
+
+.user-list-title::after {
+  content: '— ✦ —';
+  display: block;
+  font-size: 0.75rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+  margin-top: 8px;
+  font-family: 'Cinzel', serif;
+}

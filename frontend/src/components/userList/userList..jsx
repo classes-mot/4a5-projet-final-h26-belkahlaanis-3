@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Auth } from "../../context/auth-context";
 import UserCard from "../userCard/userCard";
 import ModalBanUser from "../modal/banUser/banUser";
+import "./userList.css"
 
 export default function UserList() {
   const admin = useContext(Auth);
@@ -28,31 +29,37 @@ export default function UserList() {
   }, []);
   if (!data) return <p>Loading...</p>;
   return (
-    <div>
-      <h1>Liste des users</h1>
-      <button onClick={admin.logout}>Logout</button>
-      {data.Users?.map((user) => (
-        <div key={user._id}>
-          <UserCard nomUser={user.nom} ban={() => setUserBan(user)} />
-        </div>
-      ))}
-      {userBan && (
-        <ModalBanUser
-          annuler={() => setUserBan(null)}
-          ban={(raison) => {
-            const url = "http://localhost:5000/api/admin/" + userBan._id;
-            fetch(url, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + admin.token,
-              },
-              body: JSON.stringify({ raisonBan: raison }),
-            });
-          }}
-          nomUser={userBan.nom}
-        />
-      )}
+    <div className="user-list-wrapper">
+      <div className="user-list-header">
+        <h1 className="user-list-title">Liste des users</h1>
+        <button className="btn" onClick={admin.logout}>
+          Logout
+        </button>
+      </div>
+      <div className="user-list-content">
+        {data.Users?.map((user) => (
+          <div key={user._id}>
+            <UserCard nomUser={user.nom} ban={() => setUserBan(user)} />
+          </div>
+        ))}
+        {userBan && (
+          <ModalBanUser
+            annuler={() => setUserBan(null)}
+            ban={(raison) => {
+              const url = "http://localhost:5000/api/admin/" + userBan._id;
+              fetch(url, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + admin.token,
+                },
+                body: JSON.stringify({ raisonBan: raison }),
+              });
+            }}
+            nomUser={userBan.nom}
+          />
+        )}
+      </div>
     </div>
   );
 }

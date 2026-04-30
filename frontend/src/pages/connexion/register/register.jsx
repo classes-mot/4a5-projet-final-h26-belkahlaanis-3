@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Auth } from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
+import "../login.css";
 
 export default function Register() {
   const user = useContext(Auth);
@@ -54,14 +55,10 @@ export default function Register() {
           <input id="password" type="password" name="password" />
         </div>
       </div>
-      <button className="btn" type="submit">
+      <button className="btnSubmit" type="submit">
         Se connecter
       </button>
-      <button
-        className="boutton"
-        type="button"
-        onClick={() => naviger("/login")}
-      >
+      <button className="creer" type="button" onClick={() => naviger("/login")}>
         Retour login
       </button>
     </form>

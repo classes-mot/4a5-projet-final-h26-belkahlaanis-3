@@ -1,0 +1,61 @@
+/* ===== buildCard.css ===== */
+
+.build-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1e1812 0%, #17130d 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* trait doré gauche */
+.build-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold-dim), transparent);
+  transition: background 0.25s;
+}
+
+.build-card:hover {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 20px rgba(200, 168, 75, 0.08), inset 0 0 20px rgba(200, 168, 75, 0.03);
+}
+
+.build-card:hover::before {
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+}
+
+.build-card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  letter-spacing: 0.05em;
+  padding-left: 12px;
+  transition: color 0.2s;
+}
+
+.build-card:hover .build-card-name {
+  color: var(--gold-light);
+}
+
+.build-card-actions {
+  display: flex;
+  gap: 10px;
+}

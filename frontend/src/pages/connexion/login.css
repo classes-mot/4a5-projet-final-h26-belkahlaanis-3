@@ -1,0 +1,117 @@
+/* ===== login.css ===== */
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+padding-top: 0;
+margin-top: -80px;
+  min-height: 100vh;
+  gap: 20px;
+  padding: 40px 24px;
+}
+
+/* ── Titre ── */
+.titre {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 30px rgba(200, 168, 75, 0.3);
+  text-align: center;
+  position: relative;
+}
+
+.titre::after {
+  content: '— ✦ —';
+  display: block;
+  font-size: 0.75rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+  margin-top: 8px;
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Groupe champs ── */
+.control-row {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.control input {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: var(--text);
+  background: linear-gradient(135deg, #1e1812 0%, #17130d 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.control input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.control input:focus {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 12px rgba(200, 168, 75, 0.15);
+}
+
+.no-margin {
+  margin: 0;
+}
+
+/* ── Boutons ── */
+.btnSubmit,
+.creer {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 32px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(180deg, #2a2218 0%, #1a1510 100%);
+  color: var(--gold);
+  border: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  max-width: 340px;
+}
+
+.btnSubmit:hover,
+.creer:hover {
+  color: var(--gold-light);
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(200, 168, 75, 0.2), inset 0 0 8px rgba(200, 168, 75, 0.05);
+}
+
+.btnSubmit:active,
+.creer:active {
+  transform: scale(0.98);
+}
