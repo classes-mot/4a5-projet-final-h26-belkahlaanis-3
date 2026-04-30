@@ -1,10 +1,14 @@
 import "./buildCard.css";
-export default function BuildCard({ nomBuild, estPrivee }) {
+export default function BuildCard({ nomBuild, estPrivee, supprimer }) {
   return (
     <div className="build-card">
       <p className="build-card-name">{nomBuild}</p>
       <div className="build-card-actions">
-        {estPrivee && <button className="btn">Supprimer</button>}
+        {estPrivee && (
+          <button className="btn" onClick={supprimer}>
+            Supprimer
+          </button>
+        )}
         <button className="btn">Acceder</button>
       </div>
     </div>

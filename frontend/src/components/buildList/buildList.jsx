@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import BuildCard from "../buildCard/buildCard";
 import { Auth } from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
+import ModalSupprimer from "../modal/supprimer/supprimer";
 import "./buildList.css";
 
 export default function BuildList() {
@@ -9,6 +10,8 @@ export default function BuildList() {
   const naviger = useNavigate();
   const [estPrivee, setPrivee] = useState(user.connectee);
   const [data, setData] = useState(null);
+  const [buildSupp, setBuildSupp] = useState(null);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     const sendRequest = async () => {
       try {
@@ -34,7 +37,7 @@ export default function BuildList() {
       }
     };
     sendRequest();
-  }, [estPrivee, user.userId, user.token]);
+  }, [estPrivee, user.userId, user.token, refresh]);
   if (!data) return <p>Loading...</p>;
   return (
     <div className="build-list-wrapper">
@@ -76,23 +79,53 @@ export default function BuildList() {
             : "Liste de builds publics"}
         </h1>
         {estPrivee ? (
-          data.Builds && data.Builds.length === 0 ? (
+          !data.Builds || data.Builds.length === 0 ? (
             <h1>Pas de builds</h1>
           ) : (
             data.Builds?.map((build) => (
               <div key={build._id}>
-                <BuildCard nomBuild={build.titre} estPrivee={estPrivee} />
+                <BuildCard
+                  nomBuild={build.titre}
+                  estPrivee={estPrivee}
+                  supprimer={() => setBuildSupp(build)}
+                />
               </div>
             ))
           )
-        ) : data.buildsPublic && data.buildsPublic.length === 0 ? (
+        ) : !data.buildsPublic || data.buildsPublic.length === 0 ? (
           <h1>Pas de builds</h1>
         ) : (
           data.buildsPublic?.map((build) => (
             <div key={build._id}>
-              <BuildCard nomBuild={build.titre} estPrivee={estPrivee} />
+              <BuildCard
+                nomBuild={build.titre}
+                estPrivee={estPrivee}
+                supprimer={() => setBuildSupp(build)}
+              />
             </div>
           ))
+        )}
+        {buildSupp && (
+          <ModalSupprimer
+            annuler={() => setBuildSupp(null)}
+            supprimer={async () => {
+              const url =
+                "http://localhost:5000/api/build/" +
+                buildSupp.proprietaire +
+                "/" +
+                buildSupp._id;
+              await fetch(url, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + user.token,
+                },
+              });
+              setBuildSupp(null);
+              setRefresh((prev) => !prev);
+            }}
+            nomBuild={buildSupp.titre}
+          />
         )}
       </div>
     </div>
