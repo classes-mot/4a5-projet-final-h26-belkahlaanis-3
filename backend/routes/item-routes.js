@@ -4,8 +4,9 @@ import { checkUser, checkBan } from "../middleware/check-auth.js";
 
 const router = express.Router();
 
-router.get("/armures", checkUser, checkBan, getArmures);
+router.get("/armures", getArmures);
 
-router.get("/talisments", checkUser, checkBan, getTalisments);
+router.get("/talisments", getTalisments);
 
 export default router;
+//checkUser, checkBan,
