@@ -1,29 +1,13 @@
 import HttpError from "../utils/http-error.js";
 
-async function getAllArmures() {
-  const total = [];
-  let page = 0;
-  let pasFinit = true;
-
-  while (pasFinit) {
-    const reponse = await fetch(
-      `https://eldenring.fanapis.com/api/armors?limit=100&page=${page}`,
-    );
-    const data = await reponse.json();
-    total.push(...data.data);
-    if (total.length >= data.total) {
-      pasFinit = false;
-    } else {
-      page++;
-    }
-  }
-  return total;
-}
-
 const getArmures = async (req, res, next) => {
+  const nbPage = req.params.page;
   try {
-    const items = await getAllArmures();
-    res.json({ armures: items });
+    let url =
+      "https://eldenring.fanapis.com/api/armors?limit=25&page=" + nbPage;
+    const reponse = await fetch(url);
+    const data = await reponse.json();
+    res.json({ armures: data });
   } catch (erreur) {
     return next(new HttpError("erreur lors du api call", 500));
   }

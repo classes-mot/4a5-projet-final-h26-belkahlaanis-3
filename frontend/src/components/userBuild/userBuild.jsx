@@ -2,37 +2,34 @@ import { useNavigate } from "react-router-dom";
 import BuildCardInfo from "../BuildCardInfo/buildCardInfo";
 import BuildListBox from "../buildListBox/buildListbox";
 import { useEffect, useState } from "react";
-import { Draggable } from "react-drag-and-drop";
+import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
 
 export default function UserBuild() {
   const navigate = useNavigate();
-  const typeEquipements = ["casque", "plastron", "pantalon", "botte"];
+  const typeEquipements = ["Helm", "Chest Armor", "Leg Armor", "Gauntlets"];
   const typeArtefacts = ["artefact1", "artefact2", "artefact3", "artefact4"];
   const typeStats = ["hp", "fp", "end", "str", "dex", "int", "faith", "arc"];
   const [items, setItems] = useState(null);
+  const [page, setPage] = useState(0);
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const reponse = await fetch("http://localhost:5000/api/item/armures");
-        const reponse2 = await fetch(
-          "http://localhost:5000/api/item/talisments",
-        );
+        const url = "http://localhost:5000/api/item/armures/" + page;
+        const reponse = await fetch(url);
         if (!reponse.ok) {
           throw new Error("erreur survenue");
         }
-        if (!reponse2.ok) {
-          throw new Error("erreur survenue");
-        }
+        new Error("erreur survenue");
+
         const reponseData = await reponse.json();
-        const reponseData2 = await reponse2.json();
-        setItems([...reponseData.armures, ...reponseData2.data]);
+        setItems(reponseData.armures.data);
       } catch (erreur) {
         console.log(erreur);
       }
     };
 
     sendRequest();
-  }, []);
+  }, [page]);
 
   if (!items) return <p>Loading...</p>;
   return (
@@ -42,16 +39,17 @@ export default function UserBuild() {
       <h2>Equipement </h2>
       {typeEquipements.map((typeE) => (
         <div key={typeE}>
-          <BuildCardInfo type={typeE} />
+          <BuildCardConteneur type={typeE} />
         </div>
       ))}
       <h2>Artefacs</h2>
       {typeArtefacts.map((typeA) => (
         <div key={typeA}>
-          <BuildCardInfo type={typeA} />
+          <BuildCardConteneur type={"Talisment"} />
         </div>
       ))}
       <h2>Stats</h2>
+
       {typeStats.map((typeS) => (
         <div key={typeS}>
           <label>
@@ -63,11 +61,33 @@ export default function UserBuild() {
       <h3>barre de recherche</h3>
       <BuildListBox>
         {items.map((item) => (
-          <div key={item.id}>
-            <Draggable>{item.name}</Draggable>
+          <div key={item.name}>
+            <BuildCardInfo
+              type={item.category}
+              objet={item}
+              img={`/assets/${item.name}.png`}
+            />
           </div>
         ))}
       </BuildListBox>
+      <button
+        onClick={() => {
+          if (page === 0) {
+            console.log("minimum atteint");
+          } else {
+            setPage(page - 1);
+          }
+        }}
+      >
+        Avant
+      </button>
+      <button
+        onClick={() => {
+          setPage(page + 1);
+        }}
+      >
+        Suivant
+      </button>
       <button>Enregistrer</button>
       <button>Rendre public</button>
     </div>

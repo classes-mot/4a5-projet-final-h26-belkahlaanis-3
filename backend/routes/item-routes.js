@@ -4,7 +4,7 @@ import { checkUser, checkBan } from "../middleware/check-auth.js";
 
 const router = express.Router();
 
-router.get("/armures", getArmures);
+router.get("/armures/:page", getArmures);
 
 router.get("/talisments", getTalisments);
 
