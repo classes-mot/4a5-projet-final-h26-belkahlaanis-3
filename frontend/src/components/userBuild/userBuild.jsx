@@ -1,28 +1,88 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BuildCardInfo from "../BuildCardInfo/buildCardInfo";
 import BuildListBox from "../buildListBox/buildListbox";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
+import { Auth } from "../../context/auth-context";
 
 export default function UserBuild() {
+  const [choix, setChoix] = useState("");
+  const [description, setDescription] = useState("");
+  const [stats, setStats] = useState({
+    hp: 1,
+    fp: 1,
+    end: 1,
+    str: 1,
+    dex: 1,
+    int: 1,
+    faith: 1,
+    arc: 1,
+  });
+  const [privee, setPrivee] = useState(false);
+  const user = useContext(Auth);
   const navigate = useNavigate();
   const typeEquipements = ["Helm", "Chest Armor", "Leg Armor", "Gauntlets"];
   const typeArtefacts = ["artefact1", "artefact2", "artefact3", "artefact4"];
   const typeStats = ["hp", "fp", "end", "str", "dex", "int", "faith", "arc"];
   const [items, setItems] = useState(null);
+  const [itemsJoueur, setItemsJoueur] = useState(null);
   const [page, setPage] = useState(0);
+  const { userId, buildId } = useParams();
+  const [titre, setTitre] = useState("");
+  const comboBox = () => {
+    return (
+      <div>
+        <label htmlFor="classe">Classe</label>
+        <select
+          id="classe"
+          value={choix}
+          onChange={(e) => setChoix(e.target.value)}
+        >
+          <option value="" disabled>
+            --
+          </option>
+          <option value="Hero">Hero</option>
+          <option value="Bandit">Bandit</option>
+          <option value="Astrologer">Astrologer</option>
+          <option value="Warrior">Warrior</option>
+          <option value="Prisoner">Prisoner</option>
+          <option value="Confessor">Confessor</option>
+          <option value="Wretch">Wretch</option>
+          <option value="Vagabond">Vagabond</option>
+          <option value="Prophet">Prophet</option>
+          <option value="Samurai">Samurai</option>
+          <option value="Heavy Knight">Heavy Knight</option>
+        </select>
+      </div>
+    );
+  };
   useEffect(() => {
     const sendRequest = async () => {
       try {
         const url = "http://localhost:5000/api/item/armures/" + page;
         const reponse = await fetch(url);
+        const reponseBuild = await fetch(
+          "http://localhost:5000/api/user/" + userId + "/" + buildId,
+          {
+            headers: {
+              Authorization: "Bearer " + user.token,
+            },
+          },
+        );
         if (!reponse.ok) {
           throw new Error("erreur survenue");
         }
-        new Error("erreur survenue");
+        if (!reponseBuild.ok) {
+          throw new Error("erreur survenue");
+        }
 
         const reponseData = await reponse.json();
+        const reponseDataBuild = await reponseBuild.json();
         setItems(reponseData.armures.data);
+        setItemsJoueur(reponseDataBuild.Build);
+        setTitre(reponseDataBuild.Build.titre);
+        console.log(titre);
+        console.log(itemsJoueur);
       } catch (erreur) {
         console.log(erreur);
       }
@@ -30,12 +90,21 @@ export default function UserBuild() {
 
     sendRequest();
   }, [page]);
-
   if (!items) return <p>Loading...</p>;
   return (
     <div>
       <button onClick={() => navigate("/menu")}>Quitter</button>
-      <h1>titre</h1>
+      <h1
+        contentEditable
+        suppressContentEditableWarning={true}
+        onInput={(e) => {
+          setTitre(e.currentTarget.textContent);
+          console.log(titre);
+        }}
+      >
+        {titre}
+      </h1>
+      {comboBox()}
       <h2>Equipement </h2>
       {typeEquipements.map((typeE) => (
         <div key={typeE}>
@@ -54,7 +123,15 @@ export default function UserBuild() {
         <div key={typeS}>
           <label>
             {typeS}
-            <input id={typeS} type="number" />
+            <input
+              id={typeS}
+              type="number"
+              value={stats[typeS]}
+              onChange={(e) => {
+                setStats({ ...stats, [typeS]: Number(e.target.value) });
+                console.log(stats);
+              }}
+            />
           </label>
         </div>
       ))}
@@ -88,8 +165,22 @@ export default function UserBuild() {
       >
         Suivant
       </button>
+      <textarea
+        name="desciption"
+        id="description"
+        onChange={(e) => {
+          setDescription(e.target.value);
+          console.log({ description });
+        }}
+      ></textarea>
       <button>Enregistrer</button>
-      <button>Rendre public</button>
+      <button
+        onClick={() => {
+          setPrivee(!privee);
+        }}
+      >
+        {privee ? "rendre public" : "Rendre privee"}
+      </button>
     </div>
   );
 }
