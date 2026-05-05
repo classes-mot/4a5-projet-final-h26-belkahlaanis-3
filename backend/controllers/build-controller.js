@@ -9,21 +9,6 @@ si user existe pas -> retourne 404;
 si le build est public et n'a pas de titre -> "build de " nom du User
  */
 const creerBuild = async (req, res, next) => {
-  const validationErreurs = validationResult(req);
-  if (!validationErreurs.isEmpty()) {
-    return next(
-      new HttpError("données saisies invalides valider votre payload", 422),
-    );
-  }
-  const {
-    titre,
-    isPublic,
-    classe,
-    equipement: { casque, plastron, pantalon, botte },
-    artefacts: { artefact1, artefact2, artefact3, artefact4 },
-    stats: { hp, fp, end, str, dex, int, faith, arc, lvl },
-    description,
-  } = req.body;
   let build;
   try {
     const userId = req.params.userId;
@@ -31,31 +16,21 @@ const creerBuild = async (req, res, next) => {
     if (!user) {
       return next(new HttpError("Utilisateur non trouvé", 404));
     }
-    let titreFinal;
-    if (isPublic === true && titre === undefined) {
-      titreFinal = "Build de " + user.nom;
-    } else {
-      titreFinal = titre;
-    }
     build = new Builds({
-      titre: titreFinal,
-      isPublic,
+      titre: "Build de " + user.nom,
       proprietaire: userId,
-      classe: classe,
-      equipement: {
-        casque,
-        plastron,
-        pantalon,
-        botte,
+      classe: "Vagabond",
+      stats: {
+        hp: 1,
+        fp: 1,
+        end: 1,
+        str: 1,
+        dex: 1,
+        int: 1,
+        faith: 1,
+        arc: 1,
+        lvl: 1,
       },
-      artefacts: {
-        artefact1,
-        artefact2,
-        artefact3,
-        artefact4,
-      },
-      stats: { hp, fp, end, str, dex, int, faith, arc, lvl },
-      description,
     });
     user.builds.push(build);
     await build.save();

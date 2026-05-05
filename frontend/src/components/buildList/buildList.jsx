@@ -38,6 +38,27 @@ export default function BuildList() {
     };
     sendRequest();
   }, [estPrivee, user.userId, user.token, refresh]);
+  const nouveauBuild = async () => {
+    try {
+      const reponse = await fetch(
+        "http://localhost:5000/api/build/" + user.userId,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application.json",
+            Authorization: "Bearer " + user.token,
+          },
+        },
+      );
+      const reponseData = await reponse.json();
+      if (!reponse.ok) {
+        throw new Error(reponseData.message || "Erreur api");
+      }
+      naviger("/build/" + user.userId + "/" + reponseData.creation._id);
+    } catch (erreur) {
+      console.log(erreur);
+    }
+  };
   if (!data) return <p>Loading...</p>;
   return (
     <div className="build-list-wrapper">
@@ -78,6 +99,9 @@ export default function BuildList() {
             ? "Mes Builds"
             : "Liste de builds publics"}
         </h1>
+        {user.connectee && estPrivee && (
+          <button onClick={nouveauBuild}>Nouveau Build</button>
+        )}
         {estPrivee ? (
           !data.Builds || data.Builds.length === 0 ? (
             <h1>Pas de builds</h1>
