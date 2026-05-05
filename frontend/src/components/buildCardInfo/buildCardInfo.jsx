@@ -16,7 +16,7 @@ export default function BuildCardInfo({ type, objet, img }) {
       }}
     >
       <img src={img} alt="Pas dispo" />
-      {objet.name}
+      {objet.nom}
     </div>
   );
 }

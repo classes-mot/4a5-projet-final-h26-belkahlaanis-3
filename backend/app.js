@@ -21,7 +21,7 @@ app.use(express.json());
 app.use("/api/admin", adminRoute);
 app.use("/api/build", buildRoute);
 app.use("/api/user", userRoute);
-app.use("/api/item", apiRoute);
+app.use("/api/items", apiRoute);
 app.use((req, res, next) => {
   const erreur = new Error("Route non trouvee");
   erreur.code = 404;

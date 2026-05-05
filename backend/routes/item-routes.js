@@ -1,12 +1,9 @@
 import express from "express";
-import { getArmures, getTalisments } from "../controllers/item-controller.js";
+import { getItems } from "../controllers/item-controller.js";
 import { checkUser, checkBan } from "../middleware/check-auth.js";
 
 const router = express.Router();
 
-router.get("/armures/:page", getArmures);
-
-router.get("/talisments", getTalisments);
+router.get("/:page", getItems);
 
 export default router;
-//checkUser, checkBan,

@@ -21,7 +21,7 @@ export default function UserBuild() {
   const [privee, setPrivee] = useState(false);
   const user = useContext(Auth);
   const navigate = useNavigate();
-  const typeEquipements = ["Helm", "Chest Armor", "Leg Armor", "Gauntlets"];
+  const typeEquipements = ["casque", "plastron", "gant", "jambiere"];
   const typeArtefacts = ["artefact1", "artefact2", "artefact3", "artefact4"];
   const typeStats = ["hp", "fp", "end", "str", "dex", "int", "faith", "arc"];
   const [items, setItems] = useState(null);
@@ -59,7 +59,7 @@ export default function UserBuild() {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const url = "http://localhost:5000/api/item/armures/" + page;
+        const url = "http://localhost:5000/api/items/" + page;
         const reponse = await fetch(url);
         const reponseBuild = await fetch(
           "http://localhost:5000/api/user/" + userId + "/" + buildId,
@@ -78,10 +78,9 @@ export default function UserBuild() {
 
         const reponseData = await reponse.json();
         const reponseDataBuild = await reponseBuild.json();
-        setItems(reponseData.armures.data);
+        setItems(reponseData.items);
         setItemsJoueur(reponseDataBuild.Build);
         setTitre(reponseDataBuild.Build.titre);
-        console.log(titre);
         console.log(itemsJoueur);
       } catch (erreur) {
         console.log(erreur);
@@ -138,11 +137,11 @@ export default function UserBuild() {
       <h3>barre de recherche</h3>
       <BuildListBox>
         {items.map((item) => (
-          <div key={item.name}>
+          <div key={item._id}>
             <BuildCardInfo
-              type={item.category}
+              type={item.categorie}
               objet={item}
-              img={`/assets/${item.name}.png`}
+              img={`/assets/${item.nom}.png`}
             />
           </div>
         ))}
