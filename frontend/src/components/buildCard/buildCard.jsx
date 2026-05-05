@@ -1,5 +1,5 @@
 import "./buildCard.css";
-export default function BuildCard({ nomBuild, estPrivee, supprimer }) {
+export default function BuildCard({ nomBuild, estPrivee, supprimer, acceder }) {
   return (
     <div className="build-card">
       <p className="build-card-name">{nomBuild}</p>
@@ -9,7 +9,9 @@ export default function BuildCard({ nomBuild, estPrivee, supprimer }) {
             Supprimer
           </button>
         )}
-        <button className="btn">Acceder</button>
+        <button className="btn" onClick={acceder}>
+          Acceder
+        </button>
       </div>
     </div>
   );

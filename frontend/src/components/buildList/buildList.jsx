@@ -112,6 +112,9 @@ export default function BuildList() {
                   nomBuild={build.titre}
                   estPrivee={estPrivee}
                   supprimer={() => setBuildSupp(build)}
+                  acceder={() =>
+                    naviger("/build/" + user.userId + "/" + build._id)
+                  }
                 />
               </div>
             ))
