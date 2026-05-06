@@ -112,7 +112,7 @@ export default function UserBuild() {
         ];
         setStats(reponseDataBuild.Build.stats);
         const itemsFiltres = reponseData.items.filter((item) => {
-          return !objetsEquipes.some((objet) => objet._id === item._id);
+          return !objetsEquipes.some((objet) => objet?._id === item._id);
         });
         setItemsFiltre(itemsFiltres);
         setItems(reponseData.items);
