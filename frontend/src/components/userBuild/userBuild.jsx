@@ -116,7 +116,6 @@ export default function UserBuild() {
         });
         setItemsFiltre(itemsFiltres);
         setItems(reponseData.items);
-        console.log(itemsJoueur);
       } catch (erreur) {
         console.log(erreur);
       }
@@ -129,11 +128,10 @@ export default function UserBuild() {
     <div>
       <button onClick={() => navigate("/menu")}>Quitter</button>
       <h1
-        contentEditable={!estProprietaire}
+        contentEditable={estProprietaire}
         suppressContentEditableWarning={true}
         onInput={(e) => {
           setTitre(e.currentTarget.textContent);
-          console.log(titre);
         }}
       >
         {titre}
@@ -178,7 +176,6 @@ export default function UserBuild() {
                 if (valeur < 1) valeur = 1;
                 if (valeur > 99) valeur = 99;
                 setStats({ ...stats, [typeS]: valeur });
-                console.log(stats);
               }}
             />
           </label>
@@ -222,24 +219,12 @@ export default function UserBuild() {
         id="description"
         onChange={(e) => {
           setDescription(e.target.value);
-          console.log({ description });
         }}
       ></textarea>
       {estProprietaire && (
         <>
           <button
             onClick={() => {
-              console.log("description " + description); //
-              console.log("stats " + stats);
-              console.log("titre " + titre); //
-              console.log("choix " + choix); //
-              console.log("public " + privee);
-              Object.entries(equipements).map(([slot, item]) => {
-                console.log(slot, item);
-              });
-              Object.entries(talismans).map(([slot, item]) => {
-                console.log(slot, item);
-              });
               const url =
                 "http://localhost:5000/api/build/" + userId + "/" + buildId;
               fetch(url, {
