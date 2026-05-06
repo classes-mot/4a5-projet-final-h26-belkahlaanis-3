@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
 import { Auth } from "../../context/auth-context";
 import { useTranslation } from "react-i18next";
+import ComboBox from "../comboBox/comboBox";
 
 export default function UserBuild() {
   const { t } = useTranslation();
@@ -56,34 +57,6 @@ export default function UserBuild() {
   const [page, setPage] = useState(0);
   const { userId, buildId } = useParams();
   const estProprietaire = userId === user.userId;
-  const comboBox = () => {
-    return (
-      <div>
-        <label htmlFor="classe">{t("build.comboClasses")}</label>
-        <select
-          id="classe"
-          value={choix}
-          disabled={!estProprietaire}
-          onChange={(e) => setChoix(e.target.value)}
-        >
-          <option value="" disabled>
-            --
-          </option>
-          <option value="Hero">{t("build.classes.hero")}</option>
-          <option value="Bandit">{t("build.classes.bandit")}</option>
-          <option value="Astrologer">{t("build.classes.astrologer")}</option>
-          <option value="Warrior">{t("build.classes.warrior")}</option>
-          <option value="Prisoner">{t("build.classes.prisoner")}</option>
-          <option value="Confessor">{t("build.classes.confessor")}</option>
-          <option value="Wretch">{t("build.classes.WRETCH")}</option>
-          <option value="Vagabond">{t("build.classes.vagabond")}</option>
-          <option value="Prophet">{t("build.classes.prophet")}</option>
-          <option value="Samurai">{t("build.classes.samurai")}</option>
-          <option value="Heavy Knight">{t("build.classes.heavyKnight")}</option>
-        </select>
-      </div>
-    );
-  };
   useEffect(() => {
     const sendRequest = async () => {
       try {
@@ -138,7 +111,11 @@ export default function UserBuild() {
       >
         {titre}
       </h1>
-      {comboBox()}
+      <ComboBox
+        choix={choix}
+        estProprietaire={estProprietaire}
+        setChoix={setChoix}
+      />
       <h2>{t("build.titreEquipements")}</h2>
       {typeEquipements.map((typeE) => (
         <div key={typeE}>
