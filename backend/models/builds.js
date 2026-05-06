@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const buildsSchema = new mongoose.Schema({
-  titre: { type: String, default: "Sans titre" },
+  titre: { type: String, default: null },
   isPublic: { type: Boolean, default: false },
   proprietaire: {
     type: mongoose.Schema.Types.ObjectId,
@@ -9,17 +9,17 @@ const buildsSchema = new mongoose.Schema({
     required: true,
   },
   classe: { type: String, required: true },
-  equipement: {
-    casque: { type: String, default: "vide" },
-    plastron: { type: String, default: "vide" },
-    pantalon: { type: String, default: "vide" },
-    botte: { type: String, default: "vide" },
+  equipements: {
+    casque: { type: mongoose.Schema.Types.ObjectId, default: null },
+    plastron: { type: mongoose.Schema.Types.ObjectId, default: null },
+    gant: { type: mongoose.Schema.Types.ObjectId, default: null },
+    jambiere: { type: mongoose.Schema.Types.ObjectId, default: null },
   },
-  artefacts: {
-    artefact1: { type: String, default: "vide" },
-    artefact2: { type: String, default: "vide" },
-    artefact3: { type: String, default: "vide" },
-    artefact4: { type: String, default: "vide" },
+  talismans: {
+    talisman1: { type: mongoose.Schema.Types.ObjectId, default: null },
+    talisman2: { type: mongoose.Schema.Types.ObjectId, default: null },
+    talisman3: { type: mongoose.Schema.Types.ObjectId, default: null },
+    talisman4: { type: mongoose.Schema.Types.ObjectId, default: null },
   },
   stats: {
     hp: { type: Number, required: true },

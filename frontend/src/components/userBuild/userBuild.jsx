@@ -194,16 +194,34 @@ export default function UserBuild() {
       ></textarea>
       <button
         onClick={() => {
-          console.log("description " + description);
+          console.log("description " + description); //
           console.log("stats " + stats);
-          console.log("titre " + titre);
-          console.log("choix " + choix);
+          console.log("titre " + titre); //
+          console.log("choix " + choix); //
           console.log("public " + privee);
           Object.entries(equipements).map(([slot, item]) => {
             console.log(slot, item);
           });
           Object.entries(talismans).map(([slot, item]) => {
             console.log(slot, item);
+          });
+          const url =
+            "http://localhost:5000/api/build/" + userId + "/" + buildId;
+          fetch(url, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + user.token,
+            },
+            body: JSON.stringify({
+              titre: titre,
+              classe: choix,
+              description: description,
+              isPublic: privee,
+              equipements: equipements,
+              talismans: talismans,
+              stats: stats,
+            }),
           });
         }}
       >

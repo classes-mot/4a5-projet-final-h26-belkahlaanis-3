@@ -20,6 +20,18 @@ const creerBuild = async (req, res, next) => {
       titre: "Build de " + user.nom,
       proprietaire: userId,
       classe: "Vagabond",
+      equipements: {
+        casque: undefined,
+        plastron: undefined,
+        gant: undefined,
+        jambiere: undefined,
+      },
+      talismans: {
+        talisman1: undefined,
+        talisman2: undefined,
+        talisman3: undefined,
+        talisman4: undefined,
+      },
       stats: {
         hp: 1,
         fp: 1,
@@ -61,8 +73,8 @@ const modifierBuild = async (req, res, next) => {
     titre,
     isPublic,
     classe,
-    equipement: { casque, plastron, pantalon, botte } = {},
-    artefacts: { artefact1, artefact2, artefact3, artefact4 } = {},
+    equipements: { casque, plastron, gant, jambiere } = {},
+    talismans: { talisman1, talisman2, talisman3, talisman4 } = {},
     stats: { hp, fp, end, str, dex, int, faith, arc, lvl } = {},
     description,
   } = req.body;
@@ -86,17 +98,17 @@ const modifierBuild = async (req, res, next) => {
     buildModifier.isPublic = isPublic ?? buildModifier.isPublic;
     buildModifier.classe = classe ?? buildModifier.classe;
     buildModifier.description = description ?? buildModifier.description;
-    buildModifier.equipement = {
-      casque: casque ?? buildModifier.equipement.casque,
-      plastron: plastron ?? buildModifier.equipement.plastron,
-      pantalon: pantalon ?? buildModifier.equipement.pantalon,
-      botte: botte ?? buildModifier.equipement.botte,
+    buildModifier.equipements = {
+      casque: casque ?? buildModifier.equipements.casque,
+      plastron: plastron ?? buildModifier.equipements.plastron,
+      gant: gant ?? buildModifier.equipements.gant,
+      jambiere: jambiere ?? buildModifier.equals.jambiere,
     };
-    buildModifier.artefacts = {
-      artefact1: artefact1 ?? buildModifier.artefacts.artefact1,
-      artefact2: artefact2 ?? buildModifier.artefacts.artefact2,
-      artefact3: artefact3 ?? buildModifier.artefacts.artefact3,
-      artefact4: artefact4 ?? buildModifier.artefacts.artefact4,
+    buildModifier.talismans = {
+      talisman1: talisman1 ?? buildModifier.talismans.talisman1,
+      talisman2: talisman2 ?? buildModifier.talismans.talisman2,
+      talisman3: talisman3 ?? buildModifier.talismans.talisman3,
+      talisman4: talisman4 ?? buildModifier.talismans.talisman4,
     };
     buildModifier.stats = {
       hp: hp ?? buildModifier.stats.hp,
