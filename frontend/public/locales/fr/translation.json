@@ -1,0 +1,98 @@
+{
+  "notFound": {
+    "code": "404",
+    "message": "Page non trouvée",
+    "retour": "Retour au menu"
+  },
+  "admin": {
+    "titre": "Liste des utilisateurs",
+    "logout": "Déconnexion",
+    "ban": "Bannir",
+    "placeHolder": "Raison du bannissement",
+    "confirmationBan": "Voulez-vous vraiment bannir",
+    "annuler": "Annuler",
+    "accepter": "Confirmer"
+  },
+  "login": {
+    "titre": "Connexion",
+    "email": "Adresse électronique",
+    "placeHolderEmail": "toi@example.com",
+    "mdp": "Mot de passe",
+    "placeHolderMdp": "Entrez votre mot de passe",
+    "btnConnecter": "Se connecter",
+    "btnInscription": "Nouveau compte"
+  },
+  "register": {
+    "titre": "Inscription",
+    "username": "Nom d'utilisateur",
+    "placeHolderUsername": "Ternie",
+    "email": "Adresse électronique",
+    "placeHolderEmail": "toi@example.com",
+    "mdp": "Mot de passe",
+    "placeHolderMdp": "Entrez votre mot de passe",
+    "btnConnecter": "Se connecter",
+    "btnRetour": "Retour à la page de connexion"
+  },
+  "menu": {
+    "btnPublic": "Builds publics",
+    "btnPrivee": "Mes builds",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "titrePrivee": "Liste de mes builds",
+    "titrePublic": "Liste des builds publics",
+    "btnNvBuild": "Nouveau build",
+    "pasBuildsPrivee": "Vous n'avez aucun build",
+    "pasBuildsPublic": "Aucun build public disponible",
+    "btnSupprimer": "Supprimer",
+    "btnAcceder": "Accéder"
+  },
+  "build": {
+    "btnMenu": "Retourner au menu",
+    "comboClasses": "Classe",
+    "classes": {
+      "hero": "Héros",
+      "bandit": "Bandit",
+      "astrologer": "Astrologue",
+      "warrior": "Guerrier",
+      "prisoner": "Prisonnier",
+      "confessor": "Confesseur",
+      "wretch": "Misérable",
+      "vagabond": "Vagabond",
+      "prophet": "Prophète",
+      "samurai": "Samouraï",
+      "heavyKnight": "Chevalier lourd"
+    },
+    "titreEquipements": "Équipements",
+    "equipements": {
+      "casque": "Casque",
+      "plastron": "Plastron",
+      "gant": "Gants",
+      "jambiere": "Jambières"
+    },
+    "titreTalismans": "Talismans",
+    "talismans": {
+      "talisman1": "Talisman 1",
+      "talisman2": "Talisman 2",
+      "talisman3": "Talisman 3",
+      "talisman4": "Talisman 4"
+    },
+    "titreStats": "Stats",
+    "stats": {
+      "hp": "Vigueur",
+      "fp": "Esprit",
+      "end": "Endurance",
+      "str": "Force",
+      "dex": "Dextérité",
+      "int": "Intelligence",
+      "faith": "Foi",
+      "arc": "Ésotérisme",
+      "lvl": "Niveau"
+    },
+    "barreRecherche": "Barre de recherche",
+    "btnAvant": "Page précédente",
+    "btnApres": "Page suivante",
+    "btnEnregistrer": "Enregistrer le build",
+    "btnBuildPrivee": "Rendre le build privé",
+    "btnBuildPublic": "Rendre le build public"
+  }
+}

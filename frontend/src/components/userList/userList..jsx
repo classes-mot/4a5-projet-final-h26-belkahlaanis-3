@@ -3,8 +3,10 @@ import { Auth } from "../../context/auth-context";
 import UserCard from "../userCard/userCard";
 import ModalBanUser from "../modal/banUser/banUser";
 import "./userList.css";
+import { useTranslation } from "react-i18next";
 
 export default function UserList() {
+  const { t } = useTranslation();
   const admin = useContext(Auth);
   const [data, setData] = useState(null);
   const [userBan, setUserBan] = useState(null);
@@ -31,9 +33,9 @@ export default function UserList() {
   return (
     <div className="user-list-wrapper">
       <div className="user-list-header">
-        <h1 className="user-list-title">Liste des users</h1>
+        <h1 className="user-list-title">{t("admin.titre")}</h1>
         <button className="btn" onClick={admin.logout}>
-          Logout
+          {t("admin.logout")}
         </button>
       </div>
       <div className="user-list-content">

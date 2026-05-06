@@ -1,0 +1,98 @@
+{
+  "notFound": {
+    "code": "404",
+    "message": "Page not found",
+    "retour": "Back to menu"
+  },
+  "admin": {
+    "titre": "User List",
+    "logout": "Logout",
+    "ban": "Ban",
+    "placeHolder": "Ban reason",
+    "confirmationBan": "Do you really want to ban",
+    "annuler": "Cancel",
+    "accepter": "Confirm"
+  },
+  "login": {
+    "titre": "Login",
+    "email": "Email address",
+    "placeHolderEmail": "you@example.com",
+    "mdp": "Password",
+    "placeHolderMdp": "Enter your password",
+    "btnConnecter": "Log in",
+    "btnInscription": "Create account"
+  },
+  "register": {
+    "titre": "Register",
+    "username": "Username",
+    "placeHolderUsername": "Ternie",
+    "email": "Email address",
+    "placeHolderEmail": "you@example.com",
+    "mdp": "Password",
+    "placeHolderMdp": "Enter your password",
+    "btnConnecter": "Register",
+    "btnRetour": "Back to login page"
+  },
+  "menu": {
+    "btnPublic": "Public Builds",
+    "btnPrivee": "My Builds",
+    "login": "Log In",
+    "logout": "Log Out",
+    "titrePrivee": "My Builds List",
+    "titrePublic": "Public Builds List",
+    "btnNvBuild": "New Build",
+    "pasBuildsPrivee": "You don't have any builds",
+    "pasBuildsPublic": "No public builds available",
+    "btnSupprimer": "Delete",
+    "btnAcceder": "Access"
+  },
+  "build": {
+    "btnMenu": "Back to Menu",
+    "comboClasses": "Class",
+    "classes": {
+      "hero": "Hero",
+      "bandit": "Bandit",
+      "astrologer": "Astrologer",
+      "warrior": "Warrior",
+      "prisoner": "Prisoner",
+      "confessor": "Confessor",
+      "wretch": "Wretch",
+      "vagabond": "Vagabond",
+      "prophet": "Prophet",
+      "samurai": "Samurai",
+      "heavyKnight": "Heavy Knight"
+    },
+    "titreEquipements": "Equipment",
+    "equipements": {
+      "casque": "Helmet",
+      "plastron": "Chest Armor",
+      "gant": "Gauntlets",
+      "jambiere": "Leg Armor"
+    },
+    "titreTalismans": "Talismans",
+    "talismans": {
+      "talisman1": "Talisman 1",
+      "talisman2": "Talisman 2",
+      "talisman3": "Talisman 3",
+      "talisman4": "Talisman 4"
+    },
+    "titreStats": "Stats",
+    "stats": {
+      "hp": "Vigor",
+      "fp": "Mind",
+      "end": "Endurance",
+      "str": "Strength",
+      "dex": "Dexterity",
+      "int": "Intelligence",
+      "faith": "Faith",
+      "arc": "Arcane",
+      "lvl": "Level"
+    },
+    "barreRecherche": "Search Bar",
+    "btnAvant": "Previous Page",
+    "btnApres": "Next Page",
+    "btnEnregistrer": "Save Build",
+    "btnBuildPrivee": "Make Build Private",
+    "btnBuildPublic": "Make Build Public"
+  }
+}

@@ -4,8 +4,10 @@ import BuildListBox from "../buildListBox/buildListbox";
 import { useContext, useEffect, useState } from "react";
 import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
 import { Auth } from "../../context/auth-context";
+import { useTranslation } from "react-i18next";
 
 export default function UserBuild() {
+  const { t } = useTranslation();
   const [equipements, setEquipements] = useState({
     casque: null,
     plastron: null,
@@ -57,7 +59,7 @@ export default function UserBuild() {
   const comboBox = () => {
     return (
       <div>
-        <label htmlFor="classe">Classe</label>
+        <label htmlFor="classe">{t("build.comboClasses")}</label>
         <select
           id="classe"
           value={choix}
@@ -67,17 +69,17 @@ export default function UserBuild() {
           <option value="" disabled>
             --
           </option>
-          <option value="Hero">Hero</option>
-          <option value="Bandit">Bandit</option>
-          <option value="Astrologer">Astrologer</option>
-          <option value="Warrior">Warrior</option>
-          <option value="Prisoner">Prisoner</option>
-          <option value="Confessor">Confessor</option>
-          <option value="Wretch">Wretch</option>
-          <option value="Vagabond">Vagabond</option>
-          <option value="Prophet">Prophet</option>
-          <option value="Samurai">Samurai</option>
-          <option value="Heavy Knight">Heavy Knight</option>
+          <option value="Hero">{t("build.classes.hero")}</option>
+          <option value="Bandit">{t("build.classes.bandit")}</option>
+          <option value="Astrologer">{t("build.classes.astrologer")}</option>
+          <option value="Warrior">{t("build.classes.warrior")}</option>
+          <option value="Prisoner">{t("build.classes.prisoner")}</option>
+          <option value="Confessor">{t("build.classes.confessor")}</option>
+          <option value="Wretch">{t("build.classes.WRETCH")}</option>
+          <option value="Vagabond">{t("build.classes.vagabond")}</option>
+          <option value="Prophet">{t("build.classes.prophet")}</option>
+          <option value="Samurai">{t("build.classes.samurai")}</option>
+          <option value="Heavy Knight">{t("build.classes.heavyKnight")}</option>
         </select>
       </div>
     );
@@ -126,7 +128,7 @@ export default function UserBuild() {
   if (!items) return <p>Loading...</p>;
   return (
     <div>
-      <button onClick={() => navigate("/menu")}>Quitter</button>
+      <button onClick={() => navigate("/menu")}>{t("build.btnMenu")}</button>
       <h1
         contentEditable={estProprietaire}
         suppressContentEditableWarning={true}
@@ -137,7 +139,7 @@ export default function UserBuild() {
         {titre}
       </h1>
       {comboBox()}
-      <h2>Equipement </h2>
+      <h2>{t("build.titreEquipements")}</h2>
       {typeEquipements.map((typeE) => (
         <div key={typeE}>
           <BuildCardConteneur
@@ -148,7 +150,7 @@ export default function UserBuild() {
           />
         </div>
       ))}
-      <h2>Artefacs</h2>
+      <h2>{t("build.titreTalismans")}</h2>
       {typeArtefacts.map((typeA) => (
         <div key={typeA}>
           <BuildCardConteneur
@@ -160,12 +162,12 @@ export default function UserBuild() {
           />
         </div>
       ))}
-      <h2>Stats</h2>
+      <h2>{t("build.titreStats")}</h2>
 
       {typeStats.map((typeS) => (
         <div key={typeS}>
           <label>
-            {typeS}
+            {t(`build.stats.${typeS}`)}
             <input
               disabled={!estProprietaire}
               id={typeS}
@@ -183,7 +185,7 @@ export default function UserBuild() {
       ))}
       {estProprietaire && (
         <>
-          <h3>barre de recherche</h3>
+          <h3>{t("build.barreRecherche")}</h3>
           <BuildListBox>
             {itemsFiltre.map((item) => (
               <div key={item._id}>
@@ -200,14 +202,14 @@ export default function UserBuild() {
               }
             }}
           >
-            Avant
+            {t("build.btnAvant")}
           </button>
           <button
             onClick={() => {
               setPage(page + 1);
             }}
           >
-            Suivant
+            {t("build.btnApres")}
           </button>
         </>
       )}
@@ -245,14 +247,14 @@ export default function UserBuild() {
               });
             }}
           >
-            Enregistrer
+            {t("build.btnEnregistrer")}
           </button>
           <button
             onClick={() => {
               setPrivee(!privee);
             }}
           >
-            {privee ? "rendre privee" : "Rendre public"}
+            {privee ? t("build.btnBuildPrivee") : t("build.btnBuildPublic")}
           </button>
         </>
       )}

@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { Auth } from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import "../login.css";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const user = useContext(Auth);
   const naviger = useNavigate();
+  const { t } = useTranslation();
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
@@ -40,26 +42,41 @@ export default function Register() {
 
   return (
     <form onSubmit={authSubmitHandler}>
-      <h2 className="titre">Inscription</h2>
+      <h2 className="titre">{t("register.titre")}</h2>
       <div className="control-row">
         <div className="control no-margin">
-          <label htmlFor="username">username</label>
-          <input id="username" type="text" name="nom" />
+          <label htmlFor="username">{t("register.username")}</label>
+          <input
+            id="username"
+            type="text"
+            name="nom"
+            placeholder={t("register.placeHolderUsername")}
+          />
         </div>
         <div className="control no-margin">
-          <label htmlFor="email">email</label>
-          <input id="email" type="email" name="email" />
+          <label htmlFor="email">{t("register.email")}</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder={t("register.placeHolderEmail")}
+          />
         </div>
         <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <label htmlFor="password">{t("register.mdp")}</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder={t("register.placeHolderMdp")}
+          />
         </div>
       </div>
       <button className="btnSubmit" type="submit">
-        Se connecter
+        {t("register.btnConnecter")}
       </button>
       <button className="creer" type="button" onClick={() => naviger("/login")}>
-        Retour login
+        {t("register.btnRetour")}
       </button>
     </form>
   );

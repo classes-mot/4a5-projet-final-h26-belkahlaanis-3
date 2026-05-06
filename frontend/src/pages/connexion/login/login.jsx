@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { Auth } from "../../../context/auth-context";
 import { useNavigate } from "react-router-dom";
-import "../login.css"
+import "../login.css";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const user = useContext(Auth);
   const naviger = useNavigate();
+  const { t } = useTranslation();
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
@@ -40,26 +42,36 @@ export default function Login() {
 
   return (
     <form onSubmit={authSubmitHandler}>
-      <h2 className="titre">Connexion</h2>
+      <h2 className="titre">{t("login.titre")}</h2>
       <div className="control-row">
         <div className="control no-margin">
-          <label htmlFor="email">email</label>
-          <input id="email" type="email" name="email" />
+          <label htmlFor="email">{t("login.email")}</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder={t("login.placeHolderEmail")}
+          />
         </div>
         <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <label htmlFor="password">{t("login.mdp")}</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder={t("login.placeHolderMdp")}
+          />
         </div>
       </div>
       <button className="btnSubmit" type="submit">
-        Se connecter
+        {t("login.btnConnecter")}
       </button>
       <button
         className="creer"
         type="button"
         onClick={() => naviger("/register")}
       >
-        New Account
+        {t("login.btnInscription")}
       </button>
     </form>
   );

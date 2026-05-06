@@ -4,8 +4,11 @@ import { Auth } from "../../context/auth-context";
 import { useNavigate } from "react-router-dom";
 import ModalSupprimer from "../modal/supprimer/supprimer";
 import "./buildList.css";
+import { useTranslation } from "react-i18next";
+import ChangerLng from "../changerLng/changerLng";
 
 export default function BuildList() {
+  const { t } = useTranslation();
   const user = useContext(Auth);
   const naviger = useNavigate();
   const [estPrivee, setPrivee] = useState(user.connectee);
@@ -64,19 +67,20 @@ export default function BuildList() {
     <div className="build-list-wrapper">
       <div className="build-list-header">
         <div className="header-actions">
+          <ChangerLng />
           {user.connectee && estPrivee && (
             <button className="btn" onClick={() => setPrivee(false)}>
-              Build public
+              {t("menu.btnPublic")}
             </button>
           )}
           {user.connectee && !estPrivee && (
             <button className="btn" onClick={() => setPrivee(true)}>
-              Mes builds
+              {t("menu.btnPrivee")}
             </button>
           )}
           {!user.connectee && (
             <button className="btn" onClick={() => naviger("/login")}>
-              log in
+              {t("menu.login")}
             </button>
           )}
           {user.connectee && (
@@ -87,7 +91,7 @@ export default function BuildList() {
                 user.logout();
               }}
             >
-              log out
+              {t("menu.logout")}
             </button>
           )}
         </div>
@@ -96,15 +100,15 @@ export default function BuildList() {
       <div className="build-list-content">
         <h1 className="build-list-section-title">
           {user.connectee && estPrivee
-            ? "Mes Builds"
-            : "Liste de builds publics"}
+            ? t("menu.titrePrivee")
+            : t("menu.titrePublic")}
         </h1>
         {user.connectee && estPrivee && (
-          <button onClick={nouveauBuild}>Nouveau Build</button>
+          <button onClick={nouveauBuild}>{t("menu.btnNvBuild")}</button>
         )}
         {estPrivee ? (
           !data.Builds || data.Builds.length === 0 ? (
-            <h1>Pas de builds</h1>
+            <h1>{t("menu.pasBuildsPrivee")}</h1>
           ) : (
             data.Builds?.map((build) => (
               <div key={build._id}>
@@ -120,7 +124,7 @@ export default function BuildList() {
             ))
           )
         ) : !data.buildsPublic || data.buildsPublic.length === 0 ? (
-          <h1>Pas de builds</h1>
+          <h1>{t("menu.pasBuildsPublic")}</h1>
         ) : (
           data.buildsPublic?.map((build) => (
             <div key={build._id}>

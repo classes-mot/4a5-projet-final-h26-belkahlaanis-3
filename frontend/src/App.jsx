@@ -42,6 +42,7 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

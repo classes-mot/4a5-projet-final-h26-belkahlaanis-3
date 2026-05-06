@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
+import { useTranslation } from "react-i18next";
 
 export default function BuildCardConteneur({
   type,
@@ -9,11 +10,12 @@ export default function BuildCardConteneur({
   itemInitial,
 }) {
   const [itemDrop, setItemDrop] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (itemInitial) {
       setItemDrop(itemInitial);
-      console.log(itemInitial)
+      console.log(itemInitial);
     }
   }, [itemInitial]);
   const [{ isOver, canDrop }, drop] = useDrop(
@@ -59,7 +61,11 @@ export default function BuildCardConteneur({
             : "black",
       }}
     >
-      <p>{type}</p>
+      <p>
+        {type === "talisman"
+          ? t(`build.talismans.${slot}`)
+          : t(`build.equipements.${type}`)}
+      </p>
       {itemDrop && (
         <div>
           <img src={`/assets/${itemDrop.image}`} />
