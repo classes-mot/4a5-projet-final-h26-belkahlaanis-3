@@ -49,9 +49,11 @@ export default function UserBuild() {
     "lvl",
   ];
   const [items, setItems] = useState([]);
+  const [itemsFiltre, setItemsFiltre] = useState([]);
   const [itemsJoueur, setItemsJoueur] = useState([]);
   const [page, setPage] = useState(0);
   const { userId, buildId } = useParams();
+  const estProprietaire = userId === user.userId;
   const comboBox = () => {
     return (
       <div>
@@ -59,6 +61,7 @@ export default function UserBuild() {
         <select
           id="classe"
           value={choix}
+          disabled={!estProprietaire}
           onChange={(e) => setChoix(e.target.value)}
         >
           <option value="" disabled>
@@ -86,11 +89,6 @@ export default function UserBuild() {
         const reponse = await fetch(url);
         const reponseBuild = await fetch(
           "http://localhost:5000/api/user/" + userId + "/" + buildId,
-          {
-            headers: {
-              Authorization: "Bearer " + user.token,
-            },
-          },
         );
         if (!reponse.ok) {
           throw new Error("erreur survenue");
@@ -108,7 +106,15 @@ export default function UserBuild() {
         setDescription(reponseDataBuild.Build.description);
         setEquipements(reponseDataBuild.Build.equipements);
         setTalismans(reponseDataBuild.Build.talismans);
+        const objetsEquipes = [
+          ...Object.values(reponseDataBuild.Build.equipements),
+          ...Object.values(reponseDataBuild.Build.talismans),
+        ];
         setStats(reponseDataBuild.Build.stats);
+        const itemsFiltres = reponseData.items.filter((item) => {
+          return !objetsEquipes.some((objet) => objet._id === item._id);
+        });
+        setItemsFiltre(itemsFiltres);
         setItems(reponseData.items);
         console.log(itemsJoueur);
       } catch (erreur) {
@@ -123,7 +129,7 @@ export default function UserBuild() {
     <div>
       <button onClick={() => navigate("/menu")}>Quitter</button>
       <h1
-        contentEditable
+        contentEditable={!estProprietaire}
         suppressContentEditableWarning={true}
         onInput={(e) => {
           setTitre(e.currentTarget.textContent);
@@ -139,7 +145,7 @@ export default function UserBuild() {
           <BuildCardConteneur
             type={typeE}
             ajouterItem={setEquipements}
-            enlverItem={setItems}
+            enlverItem={setItemsFiltre}
             itemInitial={equipements[typeE]}
           />
         </div>
@@ -151,7 +157,7 @@ export default function UserBuild() {
             type={"talisman"}
             slot={typeA}
             ajouterItem={setTalismans}
-            enlverItem={setItems}
+            enlverItem={setItemsFiltre}
             itemInitial={talismans[typeA]}
           />
         </div>
@@ -163,6 +169,7 @@ export default function UserBuild() {
           <label>
             {typeS}
             <input
+              disabled={!estProprietaire}
               id={typeS}
               type="number"
               value={stats[typeS]}
@@ -177,33 +184,39 @@ export default function UserBuild() {
           </label>
         </div>
       ))}
-      <h3>barre de recherche</h3>
-      <BuildListBox>
-        {items.map((item) => (
-          <div key={item._id}>
-            <BuildCardInfo type={item.categorie} objet={item} />
-          </div>
-        ))}
-      </BuildListBox>
-      <button
-        onClick={() => {
-          if (page === 0) {
-            console.log("minimum atteint");
-          } else {
-            setPage(page - 1);
-          }
-        }}
-      >
-        Avant
-      </button>
-      <button
-        onClick={() => {
-          setPage(page + 1);
-        }}
-      >
-        Suivant
-      </button>
+      {estProprietaire && (
+        <>
+          <h3>barre de recherche</h3>
+          <BuildListBox>
+            {itemsFiltre.map((item) => (
+              <div key={item._id}>
+                <BuildCardInfo type={item.categorie} objet={item} />
+              </div>
+            ))}
+          </BuildListBox>
+          <button
+            onClick={() => {
+              if (page === 0) {
+                console.log("minimum atteint");
+              } else {
+                setPage(page - 1);
+              }
+            }}
+          >
+            Avant
+          </button>
+          <button
+            onClick={() => {
+              setPage(page + 1);
+            }}
+          >
+            Suivant
+          </button>
+        </>
+      )}
+
       <textarea
+        disabled={!estProprietaire}
         value={description}
         name="desciption"
         id="description"
@@ -212,48 +225,52 @@ export default function UserBuild() {
           console.log({ description });
         }}
       ></textarea>
-      <button
-        onClick={() => {
-          console.log("description " + description); //
-          console.log("stats " + stats);
-          console.log("titre " + titre); //
-          console.log("choix " + choix); //
-          console.log("public " + privee);
-          Object.entries(equipements).map(([slot, item]) => {
-            console.log(slot, item);
-          });
-          Object.entries(talismans).map(([slot, item]) => {
-            console.log(slot, item);
-          });
-          const url =
-            "http://localhost:5000/api/build/" + userId + "/" + buildId;
-          fetch(url, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + user.token,
-            },
-            body: JSON.stringify({
-              titre: titre,
-              classe: choix,
-              description: description,
-              isPublic: privee,
-              equipements: equipements,
-              talismans: talismans,
-              stats: stats,
-            }),
-          });
-        }}
-      >
-        Enregistrer
-      </button>
-      <button
-        onClick={() => {
-          setPrivee(!privee);
-        }}
-      >
-        {privee ? "rendre privee" : "Rendre public"}
-      </button>
+      {estProprietaire && (
+        <>
+          <button
+            onClick={() => {
+              console.log("description " + description); //
+              console.log("stats " + stats);
+              console.log("titre " + titre); //
+              console.log("choix " + choix); //
+              console.log("public " + privee);
+              Object.entries(equipements).map(([slot, item]) => {
+                console.log(slot, item);
+              });
+              Object.entries(talismans).map(([slot, item]) => {
+                console.log(slot, item);
+              });
+              const url =
+                "http://localhost:5000/api/build/" + userId + "/" + buildId;
+              fetch(url, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + user.token,
+                },
+                body: JSON.stringify({
+                  titre: titre,
+                  classe: choix,
+                  description: description,
+                  isPublic: privee,
+                  equipements: equipements,
+                  talismans: talismans,
+                  stats: stats,
+                }),
+              });
+            }}
+          >
+            Enregistrer
+          </button>
+          <button
+            onClick={() => {
+              setPrivee(!privee);
+            }}
+          >
+            {privee ? "rendre privee" : "Rendre public"}
+          </button>
+        </>
+      )}
     </div>
   );
 }

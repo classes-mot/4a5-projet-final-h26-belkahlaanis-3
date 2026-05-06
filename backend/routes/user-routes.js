@@ -30,6 +30,6 @@ router.post("/login", verificationLogin, login);
 
 router.get("/:userId", checkUser, checkBan, getBuilds);
 
-router.get("/:userId/:buildId", checkUser, checkBan, getBuildId);
+router.get("/:userId/:buildId", getBuildId);
 
 export default router;
