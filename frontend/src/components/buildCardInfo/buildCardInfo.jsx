@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-export default function BuildCardInfo({ type, objet, img }) {
+export default function BuildCardInfo({ type, objet }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: type,
     item: objet,
@@ -15,7 +15,7 @@ export default function BuildCardInfo({ type, objet, img }) {
         opacity: isDragging ? 0.5 : 1,
       }}
     >
-      <img src={img} alt="Pas dispo" />
+      <img src={`/assets/${objet.image}`} />
       {objet.nom}
     </div>
   );

@@ -6,6 +6,19 @@ import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
 import { Auth } from "../../context/auth-context";
 
 export default function UserBuild() {
+  const [equipements, setEquipements] = useState({
+    casque: undefined,
+    plastron: undefined,
+    gant: undefined,
+    jambiere: undefined,
+  });
+  const [talismans, setTalismans] = useState({
+    talisman1: undefined,
+    talisman2: undefined,
+    talisman3: undefined,
+    talisman4: undefined,
+  });
+  const [titre, setTitre] = useState(undefined);
   const [choix, setChoix] = useState("");
   const [description, setDescription] = useState("");
   const [stats, setStats] = useState({
@@ -22,13 +35,12 @@ export default function UserBuild() {
   const user = useContext(Auth);
   const navigate = useNavigate();
   const typeEquipements = ["casque", "plastron", "gant", "jambiere"];
-  const typeArtefacts = ["artefact1", "artefact2", "artefact3", "artefact4"];
+  const typeArtefacts = ["talisman1", "talisman2", "talisman3", "talisman4"];
   const typeStats = ["hp", "fp", "end", "str", "dex", "int", "faith", "arc"];
-  const [items, setItems] = useState(null);
-  const [itemsJoueur, setItemsJoueur] = useState(null);
+  const [items, setItems] = useState([]);
+  const [itemsJoueur, setItemsJoueur] = useState([]);
   const [page, setPage] = useState(0);
   const { userId, buildId } = useParams();
-  const [titre, setTitre] = useState("");
   const comboBox = () => {
     return (
       <div>
@@ -107,13 +119,22 @@ export default function UserBuild() {
       <h2>Equipement </h2>
       {typeEquipements.map((typeE) => (
         <div key={typeE}>
-          <BuildCardConteneur type={typeE} />
+          <BuildCardConteneur
+            type={typeE}
+            ajouterItem={setEquipements}
+            enlverItem={setItems}
+          />
         </div>
       ))}
       <h2>Artefacs</h2>
       {typeArtefacts.map((typeA) => (
         <div key={typeA}>
-          <BuildCardConteneur type={"Talisment"} />
+          <BuildCardConteneur
+            type={"talisman"}
+            slot={typeA}
+            ajouterItem={setTalismans}
+            enlverItem={setItems}
+          />
         </div>
       ))}
       <h2>Stats</h2>
@@ -127,7 +148,10 @@ export default function UserBuild() {
               type="number"
               value={stats[typeS]}
               onChange={(e) => {
-                setStats({ ...stats, [typeS]: Number(e.target.value) });
+                let valeur = Number(e.target.value);
+                if (valeur < 1) valeur = 1;
+                if (valeur > 99) valeur = 99;
+                setStats({ ...stats, [typeS]: valeur });
                 console.log(stats);
               }}
             />
@@ -138,11 +162,7 @@ export default function UserBuild() {
       <BuildListBox>
         {items.map((item) => (
           <div key={item._id}>
-            <BuildCardInfo
-              type={item.categorie}
-              objet={item}
-              img={`/assets/${item.nom}.png`}
-            />
+            <BuildCardInfo type={item.categorie} objet={item} />
           </div>
         ))}
       </BuildListBox>
@@ -172,7 +192,23 @@ export default function UserBuild() {
           console.log({ description });
         }}
       ></textarea>
-      <button>Enregistrer</button>
+      <button
+        onClick={() => {
+          console.log("description " + description);
+          console.log("stats " + stats);
+          console.log("titre " + titre);
+          console.log("choix " + choix);
+          console.log("public " + privee);
+          Object.entries(equipements).map(([slot, item]) => {
+            console.log(slot, item);
+          });
+          Object.entries(talismans).map(([slot, item]) => {
+            console.log(slot, item);
+          });
+        }}
+      >
+        Enregistrer
+      </button>
       <button
         onClick={() => {
           setPrivee(!privee);
