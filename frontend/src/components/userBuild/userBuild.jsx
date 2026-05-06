@@ -51,41 +51,50 @@ export default function UserBuild() {
     "arc",
     "lvl",
   ];
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [itemsFiltre, setItemsFiltre] = useState([]);
-  const [itemsJoueur, setItemsJoueur] = useState([]);
   const [page, setPage] = useState(0);
   const { userId, buildId } = useParams();
-  const estProprietaire = userId === user.userId;
+  const estProprietaire = userId === user?.userId;
+
   useEffect(() => {
-    const sendRequest = async () => {
+    const recupererBuild = async () => {
       try {
-        const url = "http://localhost:5000/api/items/" + page;
-        const reponse = await fetch(url);
         const reponseBuild = await fetch(
           "http://localhost:5000/api/user/" + userId + "/" + buildId,
         );
-        if (!reponse.ok) {
-          throw new Error("erreur survenue");
-        }
         if (!reponseBuild.ok) {
           throw new Error("erreur survenue");
         }
-
-        const reponseData = await reponse.json();
         const reponseDataBuild = await reponseBuild.json();
-        setItemsJoueur(reponseDataBuild.Build);
         setTitre(reponseDataBuild.Build.titre);
         setPrivee(reponseDataBuild.Build.isPublic);
         setChoix(reponseDataBuild.Build.classe);
         setDescription(reponseDataBuild.Build.description);
         setEquipements(reponseDataBuild.Build.equipements);
         setTalismans(reponseDataBuild.Build.talismans);
-        const objetsEquipes = [
-          ...Object.values(reponseDataBuild.Build.equipements),
-          ...Object.values(reponseDataBuild.Build.talismans),
-        ];
         setStats(reponseDataBuild.Build.stats);
+      } catch (erreur) {
+        console.log(erreur);
+      }
+    };
+    recupererBuild();
+  }, [userId, buildId]);
+
+  useEffect(() => {
+    const changerPage = async () => {
+      try {
+        const url = "http://localhost:5000/api/items/" + page;
+        const reponse = await fetch(url);
+        if (!reponse.ok) {
+          throw new Error("erreur survenue");
+        }
+        const reponseData = await reponse.json();
+
+        const objetsEquipes = [
+          ...Object.values(equipements),
+          ...Object.values(talismans),
+        ];
         const itemsFiltres = reponseData.items.filter((item) => {
           return !objetsEquipes.some((objet) => objet?._id === item._id);
         });
@@ -96,7 +105,7 @@ export default function UserBuild() {
       }
     };
 
-    sendRequest();
+    changerPage();
   }, [page]);
   if (!items) return <p>Loading...</p>;
   return (
