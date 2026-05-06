@@ -1,5 +1,7 @@
 import { useDrag } from "react-dnd";
+
 export default function BuildCardInfo({ type, objet }) {
+  if (!objet || !type) return null;
   const [{ isDragging }, drag] = useDrag(() => ({
     type: type,
     item: objet,
@@ -7,7 +9,6 @@ export default function BuildCardInfo({ type, objet }) {
       isDragging: monitor.isDragging(),
     }),
   }));
-  if (!objet) return null;
   return (
     <div
       ref={drag}

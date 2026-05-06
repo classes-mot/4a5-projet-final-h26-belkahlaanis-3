@@ -10,16 +10,44 @@ const buildsSchema = new mongoose.Schema({
   },
   classe: { type: String, required: true },
   equipements: {
-    casque: { type: mongoose.Schema.Types.ObjectId, default: null },
-    plastron: { type: mongoose.Schema.Types.ObjectId, default: null },
-    gant: { type: mongoose.Schema.Types.ObjectId, default: null },
-    jambiere: { type: mongoose.Schema.Types.ObjectId, default: null },
+    casque: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
+    plastron: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
+    gant: { type: mongoose.Schema.Types.ObjectId, ref: "Items", default: null },
+    jambiere: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
   },
   talismans: {
-    talisman1: { type: mongoose.Schema.Types.ObjectId, default: null },
-    talisman2: { type: mongoose.Schema.Types.ObjectId, default: null },
-    talisman3: { type: mongoose.Schema.Types.ObjectId, default: null },
-    talisman4: { type: mongoose.Schema.Types.ObjectId, default: null },
+    talisman1: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
+    talisman2: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
+    talisman3: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
+    talisman4: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Items",
+      default: null,
+    },
   },
   stats: {
     hp: { type: Number, required: true },
