@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 
 export default function BuildCardConteneur({
@@ -6,8 +6,15 @@ export default function BuildCardConteneur({
   ajouterItem,
   enlverItem,
   slot = type,
+  itemInitial,
 }) {
   const [itemDrop, setItemDrop] = useState(null);
+
+  useEffect(() => {
+    if (itemInitial) {
+      setItemDrop(itemInitial);
+    }
+  }, [itemInitial]);
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: type,
@@ -16,7 +23,7 @@ export default function BuildCardConteneur({
         setItemDrop(item);
         ajouterItem((ancien) => ({
           ...ancien,
-          [slot]: item._id,
+          [slot]: item,
         }));
         enlverItem((ancienItems) => {
           let nouvelleListe = ancienItems.filter((i) => i._id !== item._id);
@@ -36,7 +43,7 @@ export default function BuildCardConteneur({
         canDrop: monitor.canDrop(),
       }),
     }),
-    [(type, slot, itemDrop)],
+    [type, slot, itemDrop],
   );
   return (
     <div

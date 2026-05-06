@@ -141,7 +141,15 @@ const getBuildId = async (req, res, next) => {
     if (!user) {
       return next(new HttpError("User non trouvee", 404));
     }
-    build = user.builds.find((b) => b._id.toString() === buildId);
+    build = await Builds.findById(buildId)
+      .populate("equipements.casque")
+      .populate("equipements.plastron")
+      .populate("equipements.gant")
+      .populate("equipements.jambiere")
+      .populate("talismans.talisman1")
+      .populate("talismans.talisman2")
+      .populate("talismans.talisman3")
+      .populate("talismans.talisman4");
     if (!build) {
       return next(new HttpError("Build non trouvee", 404));
     }

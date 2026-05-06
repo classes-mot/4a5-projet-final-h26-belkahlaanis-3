@@ -7,18 +7,18 @@ import { Auth } from "../../context/auth-context";
 
 export default function UserBuild() {
   const [equipements, setEquipements] = useState({
-    casque: undefined,
-    plastron: undefined,
-    gant: undefined,
-    jambiere: undefined,
+    casque: null,
+    plastron: null,
+    gant: null,
+    jambiere: null,
   });
   const [talismans, setTalismans] = useState({
-    talisman1: undefined,
-    talisman2: undefined,
-    talisman3: undefined,
-    talisman4: undefined,
+    talisman1: null,
+    talisman2: null,
+    talisman3: null,
+    talisman4: null,
   });
-  const [titre, setTitre] = useState(undefined);
+  const [titre, setTitre] = useState(null);
   const [choix, setChoix] = useState("");
   const [description, setDescription] = useState("");
   const [stats, setStats] = useState({
@@ -30,13 +30,24 @@ export default function UserBuild() {
     int: 1,
     faith: 1,
     arc: 1,
+    lvl: 1,
   });
   const [privee, setPrivee] = useState(false);
   const user = useContext(Auth);
   const navigate = useNavigate();
   const typeEquipements = ["casque", "plastron", "gant", "jambiere"];
   const typeArtefacts = ["talisman1", "talisman2", "talisman3", "talisman4"];
-  const typeStats = ["hp", "fp", "end", "str", "dex", "int", "faith", "arc"];
+  const typeStats = [
+    "hp",
+    "fp",
+    "end",
+    "str",
+    "dex",
+    "int",
+    "faith",
+    "arc",
+    "lvl",
+  ];
   const [items, setItems] = useState([]);
   const [itemsJoueur, setItemsJoueur] = useState([]);
   const [page, setPage] = useState(0);
@@ -90,9 +101,15 @@ export default function UserBuild() {
 
         const reponseData = await reponse.json();
         const reponseDataBuild = await reponseBuild.json();
-        setItems(reponseData.items);
         setItemsJoueur(reponseDataBuild.Build);
         setTitre(reponseDataBuild.Build.titre);
+        setPrivee(reponseDataBuild.Build.isPublic);
+        setChoix(reponseDataBuild.Build.classe);
+        setDescription(reponseDataBuild.Build.description);
+        setEquipements(reponseDataBuild.Build.equipements);
+        setTalismans(reponseDataBuild.Build.talismans);
+        setStats(reponseDataBuild.Build.stats);
+        setItems(reponseData.items);
         console.log(itemsJoueur);
       } catch (erreur) {
         console.log(erreur);
@@ -123,6 +140,7 @@ export default function UserBuild() {
             type={typeE}
             ajouterItem={setEquipements}
             enlverItem={setItems}
+            itemInitial={equipements[typeE]}
           />
         </div>
       ))}
@@ -134,6 +152,7 @@ export default function UserBuild() {
             slot={typeA}
             ajouterItem={setTalismans}
             enlverItem={setItems}
+            itemInitial={talismans[typeA]}
           />
         </div>
       ))}
@@ -185,6 +204,7 @@ export default function UserBuild() {
         Suivant
       </button>
       <textarea
+        value={description}
         name="desciption"
         id="description"
         onChange={(e) => {
@@ -232,7 +252,7 @@ export default function UserBuild() {
           setPrivee(!privee);
         }}
       >
-        {privee ? "rendre public" : "Rendre privee"}
+        {privee ? "rendre privee" : "Rendre public"}
       </button>
     </div>
   );
