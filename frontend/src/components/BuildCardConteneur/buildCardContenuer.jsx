@@ -15,7 +15,6 @@ export default function BuildCardConteneur({
   useEffect(() => {
     if (itemInitial) {
       setItemDrop(itemInitial);
-      console.log(itemInitial);
     }
   }, [itemInitial]);
   const [{ isOver, canDrop }, drop] = useDrop(

@@ -32,7 +32,6 @@ export default function Register() {
         throw new Error(reponse.message || "erreur lors de la connexion");
       }
       const reponseData = await reponse.json();
-      console.log("reponseData:", reponseData);
       user.login(reponseData.user._id, reponseData.token, "user");
       naviger("/menu");
     } catch (erreur) {

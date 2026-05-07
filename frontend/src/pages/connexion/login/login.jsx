@@ -31,7 +31,6 @@ export default function Login() {
         throw new Error(reponse.message || "erreur lors de la connexion");
       }
       const reponseData = await reponse.json();
-      console.log("reponseData:", reponseData);
       user.login(reponseData.userId, reponseData.token, reponseData.role);
       if (reponseData.role === "admin") {
         naviger("/banUser");
