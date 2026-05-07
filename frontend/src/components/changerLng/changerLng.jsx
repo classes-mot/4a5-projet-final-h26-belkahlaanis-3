@@ -5,9 +5,14 @@ export default function ChangerLng() {
     i18n.changeLanguage(lang);
   };
   return (
-    <div>
-      <button onClick={() => changeLanguage("fr")}>Français</button>
-      <button onClick={() => changeLanguage("en")}>English</button>
+    <div className="language-switcher">
+      <button className="btn" onClick={() => changeLanguage("fr")}>
+        Français
+      </button>
+
+      <button className="btn" onClick={() => changeLanguage("en")}>
+        English
+      </button>
     </div>
   );
 }

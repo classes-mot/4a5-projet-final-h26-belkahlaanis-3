@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-
+import "../userBuild/userBuild.css";
 export default function BuildCardInfo({ type, objet }) {
   if (!objet || !type) return null;
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -10,14 +10,9 @@ export default function BuildCardInfo({ type, objet }) {
     }),
   }));
   return (
-    <div
-      ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-      }}
-    >
+    <div ref={drag} className="build-item-card">
       <img src={`/assets/${objet.image}`} />
-      {objet.nom}
+      <p className="build-item-name">{objet.nom}</p>
     </div>
   );
 }

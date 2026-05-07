@@ -1,21 +1,21 @@
 /* ===== buildList.css ===== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
 
 :root {
-  --bg:          #0a0805;
-  --bg-mid:      #110e09;
-  --surface:     #1a1510;
-  --surface-2:   #221c14;
-  --border:      #5a4a2a;
+  --bg: #0a0805;
+  --bg-mid: #110e09;
+  --surface: #1a1510;
+  --surface-2: #221c14;
+  --border: #5a4a2a;
   --border-glow: #c8a84b;
-  --gold:        #c8a84b;
-  --gold-light:  #e8cc80;
-  --gold-dim:    #7a6030;
-  --text:        #e2d5b0;
-  --text-muted:  #8a7a58;
-  --red-rune:    #8b2020;
-  --radius:      2px;
+  --gold: #c8a84b;
+  --gold-light: #e8cc80;
+  --gold-dim: #7a6030;
+  --text: #e2d5b0;
+  --text-muted: #8a7a58;
+  --red-rune: #8b2020;
+  --radius: 2px;
 }
 
 * {
@@ -27,14 +27,18 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'EB Garamond', serif;
+  font-family: "EB Garamond", serif;
 }
 
 /* ── Texture de fond ── */
 .build-list-wrapper {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(200, 168, 75, 0.06) 0%, transparent 60%),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(200, 168, 75, 0.06) 0%,
+      transparent 60%
+    ),
     repeating-linear-gradient(
       0deg,
       transparent,
@@ -60,13 +64,20 @@ body {
 }
 
 .build-list-header::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -1px;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-dim),
+    var(--gold),
+    var(--gold-dim),
+    transparent
+  );
 }
 
 .header-actions {
@@ -77,7 +88,7 @@ body {
 
 /* ── Bouton Elden Ring ── */
 .btn {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -89,15 +100,22 @@ body {
   background: linear-gradient(180deg, #2a2218 0%, #1a1510 100%);
   color: var(--gold);
   border: 1px solid var(--border);
-  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
   overflow: hidden;
 }
 
 .btn::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(200,168,75,0.08) 0%, transparent 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(200, 168, 75, 0.08) 0%,
+    transparent 100%
+  );
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -105,7 +123,9 @@ body {
 .btn:hover {
   color: var(--gold-light);
   border-color: var(--gold);
-  box-shadow: 0 0 12px rgba(200, 168, 75, 0.2), inset 0 0 8px rgba(200, 168, 75, 0.05);
+  box-shadow:
+    0 0 12px rgba(200, 168, 75, 0.2),
+    inset 0 0 8px rgba(200, 168, 75, 0.05);
 }
 
 .btn:hover::before {
@@ -119,7 +139,7 @@ body {
 
 /* ornements coins bouton */
 .btn::after {
-  content: '◆';
+  content: "◆";
   position: absolute;
   right: 6px;
   top: 50%;
@@ -144,7 +164,7 @@ body {
 
 /* ── Titre section ── */
 .build-list-section-title {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: "Cinzel Decorative", serif;
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--gold);
@@ -157,13 +177,13 @@ body {
 
 /* ligne ornementale sous le titre */
 .build-list-section-title::after {
-  content: '— ✦ —';
+  content: "— ✦ —";
   display: block;
   font-size: 0.8rem;
   color: var(--gold-dim);
   letter-spacing: 0.3em;
   margin-top: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
 }
 
 .build-list-empty {
@@ -172,4 +192,52 @@ body {
   font-size: 1rem;
   text-align: center;
   padding: 60px 0;
+} /* ===== ChangerLng ===== */
+
+.language-switcher {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ===== Bouton nouveau build ===== */
+
+.new-build-btn {
+  margin-bottom: 35px;
+}
+
+/* ===== Wrapper build card ===== */
+
+.build-card-wrapper {
+  margin-bottom: 18px;
+}
+
+/* ===== Loading ===== */
+
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--gold);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.15em;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+  .language-switcher {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .new-build-btn {
+    width: 100%;
+  }
+}
+.new-build-btn {
+  margin-bottom: 35px;
+  min-width: 220px;
 }

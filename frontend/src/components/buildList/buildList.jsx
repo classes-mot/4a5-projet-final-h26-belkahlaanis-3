@@ -108,7 +108,9 @@ export default function BuildList() {
             : t("menu.titrePublic")}
         </h1>
         {user.connectee && estPrivee && (
-          <button onClick={nouveauBuild}>{t("menu.btnNvBuild")}</button>
+          <button className="btn new-build-btn" onClick={nouveauBuild}>
+            {t("menu.btnNvBuild")}
+          </button>
         )}
         {estPrivee ? (
           !data.Builds || data.Builds.length === 0 ? (

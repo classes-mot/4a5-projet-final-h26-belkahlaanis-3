@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { useTranslation } from "react-i18next";
-
+import "../userBuild/userBuild.css";
 export default function BuildCardConteneur({
   type,
   ajouterItem,
@@ -49,19 +49,8 @@ export default function BuildCardConteneur({
     [type, slot, itemDrop],
   );
   return (
-    <div
-      ref={drop}
-      style={{
-        border: "2px dashed black",
-        padding: "20px",
-        backgroundColor: isOver
-          ? "lightgreen"
-          : canDrop
-            ? "lightyellow"
-            : "black",
-      }}
-    >
-      <p>
+    <div ref={drop} className={`build-drop-box ${isOver ? "active" : ""}`}>
+      <p className="build-drop-title">
         {type === "talisman"
           ? t(`build.talismans.${slot}`)
           : t(`build.equipements.${type}`)}

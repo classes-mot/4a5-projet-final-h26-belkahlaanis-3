@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-
+import "../userBuild/userBuild.css";
 export default function ComboBox({ choix, setChoix, estProprietaire }) {
   const { t } = useTranslation();
   return (
-    <div>
+    <div className="class-selector">
       <label htmlFor="classe">{t("build.comboClasses")}</label>
       <select
         id="classe"
