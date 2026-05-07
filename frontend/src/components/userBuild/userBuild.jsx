@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import BuildCardInfo from "../BuildCardInfo/buildCardInfo";
+import BuildCardInfo from "../buildCardInfo/buildCardInfo";
 import BuildListBox from "../buildListBox/buildListbox";
 import { useContext, useEffect, useState } from "react";
 import BuildCardConteneur from "../BuildCardConteneur/buildCardContenuer";
