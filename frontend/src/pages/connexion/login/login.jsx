@@ -14,16 +14,19 @@ export default function Login() {
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
     try {
-      const reponse = await fetch("http://localhost:5000/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const reponse = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "user/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
         },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
+      );
       if (!reponse.ok) {
         throw new Error(reponse.message || "erreur lors de la connexion");
       }

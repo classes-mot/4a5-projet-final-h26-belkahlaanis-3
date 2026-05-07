@@ -15,7 +15,7 @@ export default function Register() {
     const data = Object.fromEntries(fd.entries());
     try {
       const reponse = await fetch(
-        "http://localhost:5000/api/user/enregistrer",
+        import.meta.env.VITE_BACKEND_URL + "user/enregisrer",
         {
           method: "POST",
           headers: {
