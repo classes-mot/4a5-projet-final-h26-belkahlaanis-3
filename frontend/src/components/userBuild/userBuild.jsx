@@ -61,7 +61,7 @@ export default function UserBuild() {
     const recupererBuild = async () => {
       try {
         const reponseBuild = await fetch(
-          "http://localhost:5000/api/user/" + userId + "/" + buildId,
+          import.meta.env.VITE_BACKEND_URL + "user/" + userId + "/" + buildId,
         );
         if (!reponseBuild.ok) {
           throw new Error("erreur survenue");
@@ -84,7 +84,7 @@ export default function UserBuild() {
   useEffect(() => {
     const changerPage = async () => {
       try {
-        const url = "http://localhost:5000/api/items/" + page;
+        const url = import.meta.env.VITE_BACKEND_URL + "items/" + page;
         const reponse = await fetch(url);
         if (!reponse.ok) {
           throw new Error("erreur survenue");
@@ -214,7 +214,11 @@ export default function UserBuild() {
           <button
             onClick={() => {
               const url =
-                "http://localhost:5000/api/build/" + userId + "/" + buildId;
+                import.meta.env.VITE_BACKEND_URL +
+                "build/" +
+                userId +
+                "/" +
+                buildId;
               fetch(url, {
                 method: "PATCH",
                 headers: {

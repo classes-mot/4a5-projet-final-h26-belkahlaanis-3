@@ -13,11 +13,14 @@ export default function UserList() {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const reponse = await fetch("http://localhost:5000/api/admin/users", {
-          headers: {
-            Authorization: "Bearer " + admin.token,
+        const reponse = await fetch(
+          import.meta.env.VITE_BACKEND_URL + "admin/users",
+          {
+            headers: {
+              Authorization: "Bearer " + admin.token,
+            },
           },
-        });
+        );
         const reponseData = await reponse.json();
         if (!reponse.ok) {
           throw new Error(reponseData.message || "erreur survenue");
@@ -48,7 +51,8 @@ export default function UserList() {
           <ModalBanUser
             annuler={() => setUserBan(null)}
             ban={(raison) => {
-              const url = "http://localhost:5000/api/admin/" + userBan._id;
+              const url =
+                import.meta.env.VITE_BACKEND_URL + "admin/" + userBan._id;
               fetch(url, {
                 method: "PATCH",
                 headers: {

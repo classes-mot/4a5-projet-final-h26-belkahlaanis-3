@@ -9,6 +9,8 @@ logs
 **/*.back.*
 
 node_modules
+.env
+.env.production
 bower_components
 
 *.sublime*

@@ -21,14 +21,18 @@ export default function BuildList() {
         if (estPrivee && !user.userId) return;
         let reponse;
         if (estPrivee) {
-          let url = "http://localhost:5000/api/user/";
-          reponse = await fetch(url + user.userId, {
-            headers: {
-              Authorization: "Bearer " + user.token,
+          reponse = await fetch(
+            import.meta.env.VITE_BACKEND_URL + "user/" + user.userId,
+            {
+              headers: {
+                Authorization: "Bearer " + user.token,
+              },
             },
-          });
+          );
         } else {
-          reponse = await fetch("http://localhost:5000/api/user/public");
+          reponse = await fetch(
+            import.meta.env.VITE_BACKEND_URL + "user/public",
+          );
         }
         const reponseData = await reponse.json();
         if (!reponse.ok) {
@@ -44,7 +48,7 @@ export default function BuildList() {
   const nouveauBuild = async () => {
     try {
       const reponse = await fetch(
-        "http://localhost:5000/api/build/" + user.userId,
+        import.meta.env.VITE_BACKEND_URL + "build/" + user.userId,
         {
           method: "POST",
           headers: {
@@ -144,14 +148,15 @@ export default function BuildList() {
             annuler={() => setBuildSupp(null)}
             supprimer={async () => {
               const url =
-                "http://localhost:5000/api/build/" +
+                import.meta.env.VITE_BACKEND_URL +
+                "build/" +
                 buildSupp.proprietaire +
                 "/" +
                 buildSupp._id;
               await fetch(url, {
                 method: "DELETE",
                 headers: {
-                  "Content-Type": "application/json",
+                  "Content-Type": "application.json",
                   Authorization: "Bearer " + user.token,
                 },
               });

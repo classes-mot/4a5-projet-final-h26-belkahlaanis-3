@@ -30,4 +30,7 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-app.listen(5000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("ecoute sous le port" + PORT);
+});
