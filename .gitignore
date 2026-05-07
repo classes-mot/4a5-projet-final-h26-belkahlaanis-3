@@ -11,6 +11,7 @@ logs
 node_modules
 .env
 .env.production
+nodemon.json
 bower_components
 
 *.sublime*
